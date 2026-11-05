@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Kaun Banega Bhikhari</title>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--curtain:hsl(350 70% 14%);--curtain2:hsl(350 70% 22%);--tv:hsl(210 55% 18%);--acc:hsl(44 95% 55%);--chair:hsl(350 40% 30%);--ink:#fff8e7;--good:#35c46b;--bad:#e5484d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;min-height:100%;background:var(--curtain);color:var(--ink);font-family:'Mukta',system-ui,sans-serif;font-size:16px}
+body{background:radial-gradient(ellipse at 50% 0,var(--curtain2),var(--curtain) 70%) fixed}
+h1,h2{font-family:'Rozha One',Georgia,serif;font-weight:400;margin:0}
+main{max-width:640px;margin:0 auto;padding:16px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:2px solid var(--acc);background:transparent;border-radius:10px;padding:12px 16px;min-height:44px;text-align:left}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+button.go{background:var(--acc);color:#1a0b05;font-weight:700;text-align:center}
+button:disabled{opacity:.4;cursor:not-allowed}
+input,select{background:#0006;border:1px solid #fff4;border-radius:8px;padding:10px;width:100%;min-height:44px}
+label{display:block;margin:10px 0 4px;font-size:14px;opacity:.85}
+.stack{display:grid;gap:10px}
+.logo{position:relative;width:150px;height:150px;margin:24px auto 12px;display:grid;place-items:center}
+.logo::before{content:"";position:absolute;inset:-40px;background:repeating-conic-gradient(from 0deg,var(--acc) 0 6deg,transparent 6deg 18deg);opacity:.35;border-radius:50%;-webkit-mask:radial-gradient(circle,#000 30%,transparent 70%);mask:radial-gradient(circle,#000 30%,transparent 70%)}
+.logo span{position:relative;font-family:'Rozha One',serif;font-size:52px;border:5px solid var(--acc);padding:6px 16px;background:var(--curtain);border-radius:6px}
+.title{text-align:center;font-size:32px;line-height:1.1;margin-bottom:24px}
+.tv{background:var(--tv);border:10px solid #0c0c0f;border-radius:18px;padding:14px;box-shadow:0 0 0 2px var(--acc),0 10px 40px #000a;min-height:200px}
+.tv .q{font-size:19px;font-weight:600;line-height:1.35;margin:0 0 12px}
+.tv .meta{display:flex;justify-content:space-between;font-size:13px;opacity:.8;margin-bottom:8px}
+.opts{display:grid;gap:8px}
+.opts button.right{background:var(--good);border-color:var(--good);color:#04200f}
+.opts button.wrong{background:var(--bad);border-color:var(--bad)}
+.opt{padding:10px 12px;border:1px solid #fff3;border-radius:8px}
+.msg{min-height:26px;margin:10px 0;text-align:center;font-weight:700;color:var(--acc)}
+.chairs{display:flex;justify-content:space-around;align-items:flex-end;margin-top:6px}
+.seat{text-align:center;font-size:13px;width:90px}
+.fig{position:relative;height:84px}
+.head{width:30px;height:30px;border-radius:50%;background:#e8b98f;margin:0 auto}
+.body{width:52px;height:38px;margin:2px auto 0;border-radius:14px 14px 4px 4px;background:var(--chair);border:2px solid var(--acc)}
+.seat.host .body{background:#0b0b0b;border-color:#fff}
+.base{width:70px;height:12px;margin:0 auto;background:var(--acc);border-radius:4px}
+.pads{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.pad{border:1px solid #fff3;border-radius:12px;padding:8px}
+.pad h3{margin:0 0 6px;font-size:15px}
+.pad .row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.pad button{text-align:center;padding:10px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:6px 4px;border-bottom:1px solid #fff2;text-align:left}
+.scroll{overflow-x:auto}
+.card{background:#0005;border:1px solid #fff2;border-radius:14px;padding:14px;margin:12px 0}
+.tag{font-size:12px;border:1px solid var(--acc);border-radius:20px;padding:1px 8px;margin-left:6px}
+.err{color:#fff;background:var(--bad);padding:8px 10px;border-radius:8px;margin:10px 0;font-weight:600}
+.link{background:none;border:none;text-decoration:underline;padding:4px;min-height:44px}
+@media (prefers-reduced-motion:no-preference){.logo::before{animation:spin 40s linear infinite}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* landscape stage, characters, rotate prompt */
+.tabs{display:flex;gap:8px;margin:10px 0}.tabs button{flex:1;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin:10px 0}
+.cc{text-align:center;padding:8px}.cfig{height:130px;margin-bottom:4px}
+.fig{height:100%;width:auto;display:block;margin:0 auto;overflow:visible}
+.set{display:grid;grid-template-columns:minmax(64px,1fr) minmax(0,3.2fr) minmax(64px,1.3fr);gap:8px;align-items:end;min-height:calc(100dvh - 20px);overflow:hidden}
+.col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px}
+.col.pl{flex-direction:row;align-items:flex-end;justify-content:space-around}
+.pcol{display:flex;flex-direction:column;align-items:center;gap:4px}
+.cwrap{height:min(36vh,160px)}
+.lab{font-size:13px;text-align:center}
+.mid{align-self:center}
+.pf{transition:transform 2.2s ease-out}
+.walk .pf{transform:translateX(var(--from))}
+.walk.in .pf{transform:none}
+.chairg{opacity:0;transition:opacity .5s}.seated .chairg{opacity:1}
+.fig .l1,.fig .l2{transform-box:fill-box;transform-origin:50% 0}
+.walking .l1{animation:step .35s infinite alternate}.walking .l2{animation:step .35s infinite alternate-reverse}
+@keyframes step{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
+.fig .mouth{transform-box:fill-box;transform-origin:50% 50%}
+.talk .mouth{animation:yap .16s infinite alternate}
+@keyframes yap{from{transform:scaleY(.3)}to{transform:scaleY(1.6)}}
+.mid .tv{min-height:0;padding:10px}.mid .tv .q{font-size:clamp(13px,3.4vh,18px);margin:0 0 8px}
+.mid .opts{grid-template-columns:1fr 1fr}.mid .opt,.mid .opts button{font-size:clamp(12px,3vh,15px);padding:7px 9px;min-height:36px}
+.pcol .row{display:grid;grid-template-columns:repeat(2,1fr);gap:5px}.pcol .row button{padding:8px 0;min-height:40px;text-align:center}
+#rot{display:none;position:fixed;inset:0;z-index:50;background:var(--curtain);place-items:center;text-align:center;padding:24px;font-size:20px}
+@media (orientation:portrait){body:has(#set) #rot{display:grid}}
+body:has(#set) main{max-width:none;padding:8px 12px}
+@media (prefers-reduced-motion:reduce){.pf{transition:none}.walking .l1,.walking .l2,.talk .mouth{animation:none}}
+
+/* real-looking stage, chairs, wall TV, dance */
+.set{position:relative;isolation:isolate}
+.col,.mid{position:relative;z-index:1}
+.bg{position:absolute;inset:-10px;z-index:0;pointer-events:none;overflow:hidden;background:linear-gradient(#030712,hsl(var(--h) 55% 9%) 60%,hsl(var(--h) 60% 6%))}
+.bg i{position:absolute;display:block}
+.bg .stars{inset:0;background-image:radial-gradient(circle,#fff 0 1px,transparent 1.6px),radial-gradient(circle,hsl(var(--h) 90% 75%) 0 1.4px,transparent 2px);background-size:46px 46px,83px 83px;background-position:0 0,21px 37px;opacity:.55}
+.bg .beams{inset:0;background:repeating-conic-gradient(from 165deg at 50% -8%,hsl(var(--h) 90% 60% / .22) 0 3deg,transparent 3deg 11deg);-webkit-mask:radial-gradient(ellipse at 50% 0,#000 25%,transparent 78%);mask:radial-gradient(ellipse at 50% 0,#000 25%,transparent 78%)}
+.bg .ring{left:50%;top:16px;transform:translateX(-50%);width:min(46%,300px);padding:3px 0;text-align:center;border:2px solid var(--acc);border-radius:50%/60%;background:radial-gradient(#fff2,transparent 70%),hsl(var(--h) 60% 18%);box-shadow:0 0 18px hsl(var(--h) 90% 60% / .6),0 0 0 4px #0008;font:700 clamp(9px,2.4vh,13px) 'Rozha One',serif;letter-spacing:.14em;color:#fff}
+.bg .floor{left:-12%;right:-12%;bottom:-22%;height:48%;border-radius:50%;background:repeating-radial-gradient(ellipse at 50% 50%,hsl(var(--h) 90% 55% / .35) 0 2px,transparent 2px 22px),radial-gradient(ellipse at 50% 30%,hsl(var(--h) 80% 40%),hsl(var(--h) 70% 14%) 70%);box-shadow:0 0 40px hsl(var(--h) 90% 55% / .5) inset,0 -4px 24px hsl(var(--h) 90% 55% / .35)}
+.seatbox{position:relative;display:flex;justify-content:center}
+.seatbox .cwrap{height:min(36vh,160px)}
+.seatbox .cb,.seatbox .cf{position:absolute;left:50%;bottom:0;transform:translateX(-50%);pointer-events:none}
+.seatbox .cb{z-index:1}.seatbox .pf{position:relative;z-index:2}.seatbox .cf{z-index:3}.seatbox.up .cf{z-index:0}
+.chr{height:100%;width:auto;display:block;overflow:visible}
+.ch.host .cb1{fill:#2a1a12}.ch.host .cb2{fill:#7a4a2a}
+.ch.pl .cb1{fill:#10244d}.ch.pl .cb2{fill:#2d5fb8}
+.ch .cleg{fill:#161616}
+.mid .tv{background:linear-gradient(145deg,#1b1e24,#08090b 60%);border:7px solid #0b0b0d;border-radius:6px;box-shadow:0 0 0 1px #2a2d33,0 10px 30px #000c,0 0 36px hsl(var(--h) 90% 55% / .3);position:relative;padding:10px 10px 24px}
+.mid .tv::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,.07),transparent 38%);pointer-events:none}
+.mid .tv::after{content:"";position:absolute;left:50%;bottom:7px;width:8px;height:8px;margin-left:-4px;border:2px solid #22d3ee;border-radius:50%;box-shadow:0 0 6px #22d3ee}
+.armL,.armR{transform-box:fill-box;transform-origin:50% 6%}
+.dance{animation:bounce .5s ease-in-out infinite alternate}
+@keyframes bounce{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-14px) rotate(4deg)}}
+.dance .armL{animation:wl .3s ease-in-out infinite alternate}.dance .armR{animation:wr .3s ease-in-out infinite alternate}
+@keyframes wl{from{transform:rotate(-150deg)}to{transform:rotate(-100deg)}}
+@keyframes wr{from{transform:rotate(150deg)}to{transform:rotate(100deg)}}
+.dance .l1{animation:step .25s infinite alternate}.dance .l2{animation:step .25s infinite alternate-reverse}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+.confetti i{position:absolute;top:-16px;width:8px;height:14px;animation:fall 2.4s linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.win{text-align:center;background:#000b;border:2px solid var(--acc);border-radius:14px;padding:12px 16px;box-shadow:0 0 30px hsl(var(--h) 90% 55% / .5);animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+.win h2{color:var(--acc);font-size:clamp(20px,6vh,34px);text-shadow:0 0 14px var(--acc);margin:2px 0 8px}.win p{margin:3px 0;font-size:14px}.trophy{font-size:clamp(28px,8vh,44px)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.set.two{grid-template-columns:minmax(64px,1fr) minmax(0,2.4fr) minmax(170px,2fr)}
+.set.two .pcol .row button{min-height:44px;font-size:17px}
+details summary{cursor:pointer;margin:8px 0}
+@media (prefers-reduced-motion:reduce){.dance,.dance .armL,.dance .armR,.dance .l1,.dance .l2,.confetti i,.win{animation:none}}
+
+/* big tap targets */
+.set.two{grid-template-columns:minmax(56px,.8fr) minmax(0,2fr) minmax(240px,2.9fr)}
+.pcol{flex:1;min-width:0}
+.pcol .row{width:100%;grid-template-columns:1fr 1fr;gap:8px}
+.pcol .row button{min-height:56px;font-size:24px;font-weight:700;border-width:3px;border-radius:12px;padding:6px 0}
+.mid .opts button,.mid .opt{font-size:clamp(14px,3.4vh,17px);padding:10px 12px;min-height:46px}
+.mid .opts{gap:10px}
+.col.pl{gap:22px}
+.pl .pcol:nth-child(1) .row button{border-color:#4da3ff;color:#cfe6ff}
+.pl .pcol:nth-child(2) .row button{border-color:#ff9f43;color:#ffe2c4}
+.pl .pcol:nth-child(1) .lab{color:#4da3ff;font-weight:700}
+.pl .pcol:nth-child(2) .lab{color:#ff9f43;font-weight:700}
+
+.micb{display:block;margin:2px auto 0;padding:6px 12px;min-height:40px;font-size:14px;text-align:center;border-radius:20px}
+
+/* 3D stage */
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:none}
+body:has(.set.g3) #gl{display:block}
+body:has(.set.g3){background:#000 !important}
+main{position:relative;z-index:1}
+.set.g3 .bg{background:none}
+.set.g3 .bg i:not(.ring){display:none}
+.set.g3 .seatbox{visibility:hidden}
+.set.g3 .confetti{display:none}
+.set.g3 .win{padding:8px 12px}.set.g3 .win h2{font-size:clamp(18px,5vh,28px)}.set.g3 .win .trophy{font-size:clamp(22px,6vh,32px)}.set.g3 .win p{font-size:13px;margin:2px 0}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<div id="rot"><div>Turn your phone sideways to play.<br><small>Landscape works best for the stage.</small></div></div>
+<script>
+/* =====================  EDIT COLORS HERE  =====================
+   Every stage colour comes from these numbers.
+   h = hue (0-360), s = saturation (0-100), l = lightness (0-100).
+   Each mode has its own stage hue; the s and l below apply to all stages. */
+const CONFIG = {
+  HOST_ID: 'shubham05',                 // host login
+  HOST_PASS: '05112006',                // (on your server these come from main.py)
+  API_URL: window.KBB_API || '',        // set automatically when served by main.py
+  RIGHT: 20, WRONG: -10,
+  THEME: {
+    curtain:  { s: 70, l: 14 },   // stage background
+    curtain2: { s: 70, l: 22 },   // spotlight glow
+    tv:       { s: 55, l: 18 },   // TV screen colour
+    chair:    { s: 40, l: 30 },   // contestant chair/suit
+    accent:   { h: 44, s: 95, l: 55 }, // gold trim, buttons
+    tvShift: 0                    // add degrees to turn the TV hue away from the stage hue
+  }
+};
+
+/* ---- Built-in modes: questions kept exactly as in your quiz ---- */
+const BUILTIN = [
+ {id:'vedic',name:'Vedic Literature',hue:350,free:true,locked:true,qs:[
+  {q:"WHICH OF THE FOLLOWING VEDIC LITERATURE WHERE THE VARNA SYSTEM WAS DISCUSSED ?",o:["RIGVEDA","YAJURVEDA","SAMAVEDA","ATHARVAVEDA"],a:0},
+  {q:"HOW MANY SHLOKS ARE TOLD BY SHRI KRISHN IN MAHABHARATA ?",o:["84","700","541","574"],a:3},
+  {q:"WHAT WAS THE NAME OF ARJUNA’S CHARIOT IN MAHABHARATA ?",o:["NANDI GHOSH","KAPI DHWAJA","PUSHPAK","MEGHAPUSPA"],a:1},
+  {q:"WHAT WAS THE NAME OF SHRI RAMA’S SISTER ?",o:["GAURI","ROMAPADA","SHANTA","SHANTI"],a:2},
+  {q:"WHAT WAS THE NAME OF LORD MAHADEV’S SWORD?",o:["SARANG","NANDAK","BHRAMADANDA","CHANDRAHASA"],a:3}]},
+ {id:'gk',name:'GK',hue:215,free:true,locked:true,qs:[
+  {q:"WHO IS RESPONSIBLE FOR ISSUING 1-RUPEE COINS IN INDIA?",o:["NITI AAYOG","SBI","MINISTRY OF FINANCE","RBI"],a:2},
+  {q:"WHO IS CREDITED WITH CONSTRUCTING THE UNNAMED HEAVIER-THAN-AIR AIRCRAFT MODEL ‘MARUTSAKHA’ IN BOMBAY IN 1895?",o:["THE WRIGHT BROTHERS","J.R.D TATA","SHIVKAR BAPUJI TALPADE","ALBERTO SANTOS-DUMONT"],a:2},
+  {q:"WHICH EDITION IS THE CURRENT INDIAN FLAG ?",o:["6","5","7","4"],a:0},
+  {q:"WHO IS WIDELY RECOGNIZED AS THE FATHER OF INDIAN CINEMA?",o:["SATYAJIT RAY","DADASAHEB PHALKE","RAJ KAPOOR","V.SHANTARAM"],a:1},
+  {q:"WHICH CITY IS CALLED THE PARIS OF INDIA?",o:["UDAIPUR","KERALA","MAHARASHTRA","JAIPUR"],a:3}]},
+ {id:'nat',name:'Nationality',hue:145,free:true,locked:true,qs:[
+  {q:"WHO HAD WROTE ‘VANDE MATARAM’ ?",o:["RABINDRA NATH TAGORE","BANKIM CHANDRA CHATTOPADHYAY","MAHATHMA GANDHI","SUBASH CHANDRA BOSE"],a:1},
+  {q:"WHO DESIGNED THE NATIONAL FLAG IN ITS PRESENT BASIC FORM ?",o:["BAL GANGADHAR TILAK","DR.S RADHAKRISHNA","SARDAR VALLABH BHAI PATEL","PINGALI VENKAYYA"],a:3},
+  {q:"WHO WAS THE 1ST WOMAN PRESIDENT OF INDIA?",o:["SAROJINI NAIDU","INDIRA DEVI","PRATIBHA PATIL","USHA DEVI"],a:2},
+  {q:"WHICH INDIAN STATE IS KNOWN AS ‘5 RIVER OF LAND’ ?",o:["RAJASTHAN","UTTARPRADESH","PUNJAB","UTTARAKHAND"],a:2},
+  {q:"WHAT IS THE NATIONAL TREE OF INDIA?",o:["BANYAN","PEEPAL","MANGO","NEEM"],a:0}]}
+];
+
+
+/* ---- Hindi versions of your 15 questions (same order, same answers) ---- */
+const HI = {
+ vedic:[
+  ["निम्नलिखित में से किस वैदिक साहित्य में वर्ण व्यवस्था की चर्चा की गई है?",["ऋग्वेद","यजुर्वेद","सामवेद","अथर्ववेद"]],
+  ["महाभारत में श्रीकृष्ण द्वारा कितने श्लोक कहे गए हैं?",["84","700","541","574"]],
+  ["महाभारत में अर्जुन के रथ का क्या नाम था?",["नंदी घोष","कपि ध्वज","पुष्पक","मेघपुष्प"]],
+  ["श्रीराम की बहन का क्या नाम था?",["गौरी","रोमपाद","शांता","शांति"]],
+  ["भगवान महादेव की तलवार का क्या नाम था?",["सारंग","नंदक","ब्रह्मदंड","चंद्रहास"]]],
+ gk:[
+  ["भारत में 1 रुपये के सिक्के जारी करने की ज़िम्मेदारी किसकी है?",["नीति आयोग","एसबीआई","वित्त मंत्रालय","आरबीआई"]],
+  ["1895 में बॉम्बे में हवा से भारी अनाम विमान मॉडल ‘मरुत्सखा’ बनाने का श्रेय किसे दिया जाता है?",["राइट बंधु","जे.आर.डी. टाटा","शिवकर बापूजी तलपडे","अल्बर्टो सैंटोस-डुमोंट"]],
+  ["भारतीय ध्वज का वर्तमान संस्करण कौन-सा है?",["6","5","7","4"]],
+  ["भारतीय सिनेमा का जनक किसे माना जाता है?",["सत्यजीत रे","दादासाहेब फाल्के","राज कपूर","वी. शांताराम"]],
+  ["किस शहर को भारत का पेरिस कहा जाता है?",["उदयपुर","केरल","महाराष्ट्र","जयपुर"]]],
+ nat:[
+  ["‘वंदे मातरम्’ किसने लिखा था?",["रवींद्रनाथ टैगोर","बंकिम चंद्र चट्टोपाध्याय","महात्मा गांधी","सुभाष चंद्र बोस"]],
+  ["राष्ट्रीय ध्वज को उसके वर्तमान मूल रूप में किसने डिज़ाइन किया?",["बाल गंगाधर तिलक","डॉ. एस. राधाकृष्णन","सरदार वल्लभभाई पटेल","पिंगली वेंकैया"]],
+  ["भारत की पहली महिला राष्ट्रपति कौन थीं?",["सरोजिनी नायडू","इंदिरा देवी","प्रतिभा पाटिल","उषा देवी"]],
+  ["किस भारतीय राज्य को ‘पाँच नदियों की भूमि’ कहा जाता है?",["राजस्थान","उत्तर प्रदेश","पंजाब","उत्तराखंड"]],
+  ["भारत का राष्ट्रीय वृक्ष कौन-सा है?",["बरगद","पीपल","आम","नीम"]]]
+};
+
+/* ---- Hinglish questions (options stay as in your English quiz) ---- */
+const HG = {
+ vedic:["Inme se kis Vedic sahitya mein varna vyavastha ki charcha ki gayi hai?","Mahabharat mein Shri Krishna ne kitne shlok kahe hain?","Mahabharat mein Arjun ke rath ka naam kya tha?","Shri Ram ki behen ka naam kya tha?","Bhagwan Mahadev ki talwar ka naam kya tha?"],
+ gk:["Bharat mein 1 rupaye ke sikke jaari karne ki zimmedari kiski hai?","1895 mein Bombay mein hawa se bhaari bina naam ke vimaan model ‘Marutsakha’ banane ka shrey kise diya jata hai?","Bharatiya jhande ka maujooda sanskaran kaunsa hai?","Bharatiya cinema ka janak kise mana jata hai?","Kis shehar ko Bharat ka Paris kaha jata hai?"],
+ nat:["‘Vande Mataram’ kisne likha tha?","Rashtriya dhwaj ko uske maujooda mool roop mein kisne design kiya?","Bharat ki pehli mahila Rashtrapati kaun thin?","Kaun sa Bharatiya rajya ‘paanch nadiyon ki dharti’ kehlata hai?","Bharat ka rashtriya vriksh kaunsa hai?"]
+};
+
+/* ---- characters (original; the voice pack is pitch p and speed r) ---- */
+const ROSTER = [
+ {id:'volt',    name:'Volt',    g:'m', skin:'#e0ac7e', hair:'#111111', top:'#ffd23f', bottom:'#1b1b1b', mask:'#111111', emblem:'#111111', p:0.85, r:1.05},
+ {id:'bhim',    name:'Bhim',    g:'m', skin:'#c68642', hair:'#1a1209', top:'#8a5a2b', bottom:'#3b2a1a', emblem:'#ffd23f', big:1, p:0.6, r:0.9},
+ {id:'rishi',   name:'Rishi',   g:'m', skin:'#e8b98f', hair:'#e6e6e6', top:'#ff9933', bottom:'#7a3f10', hood:'#ff9933', cape:'#e2761b', emblem:'#ffffff', p:0.75, r:0.85},
+ {id:'tiranga', name:'Tiranga', g:'m', skin:'#d29b6a', hair:'#2a1a0e', top:'#ff9933', bottom:'#138808', mask:'#ff9933', cape:'#ffffff', emblem:'#0b3d91', p:0.9, r:1},
+ {id:'garuda',  name:'Garuda',  g:'m', skin:'#8d5524', hair:'#101010', top:'#b3262d', bottom:'#2a2a2a', mask:'#d4a017', wings:'#d4a017', emblem:'#d4a017', p:0.8, r:1},
+ {id:'shakti',  name:'Shakti',  g:'f', skin:'#e0ac7e', hair:'#1b1b1b', top:'#e0489a', bottom:'#7a2a55', mask:'#ffd23f', cape:'#8a1c5a', emblem:'#ffd23f', p:1.4, r:1},
+ {id:'raani',   name:'Raani',   g:'f', skin:'#c68642', hair:'#e8e8f0', top:'#6c7a9c', bottom:'#2c3550', helm:'#9fb2d8', cape:'#3d4a73', emblem:'#e0f0ff', p:1.3, r:0.95},
+ {id:'mira',    name:'Mira',    g:'f', skin:'#f1c8a0', hair:'#161616', top:'#1d1d24', bottom:'#1d1d24', mask:'#c22222', emblem:'#e5484d', p:1.25, r:1.05},
+ {id:'jwala',   name:'Jwala',   g:'f', skin:'#e0ac7e', hair:'#ff6a1a', top:'#e5484d', bottom:'#7a1d0a', mask:'#ff9f1a', emblem:'#ffd23f', p:1.5, r:1.1},
+ {id:'chandni', name:'Chandni', g:'f', skin:'#8d5524', hair:'#0c0c0c', top:'#f0f4ff', bottom:'#3b4a8a', hood:'#c9d6ff', cape:'#a9b8ff', emblem:'#ffffff', p:1.35, r:1}
+];
+const SEL = {lang:'en', chars:[null, null], host:null};
+
+/* ---- storage: results, host-made modes, uploaded sounds ---- */
+let mem = {modes:[], plays:[], sounds:{}, roles:{}, voices:{m:{}, f:{}}};
+try { const s = JSON.parse(localStorage.getItem('kbb')); if (s) mem = Object.assign(mem, s); } catch(e) {}
+const save = () => { try { localStorage.setItem('kbb', JSON.stringify(mem)); } catch(e) {} };
+const modes = () => BUILTIN.concat(mem.modes);
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const API = () => CONFIG.API_URL.replace(/\/$/, '');
+const BASE = () => API().replace(/\/api$/, '');
+const enc = encodeURIComponent;
+let G = null, hostIn = false, hostCreds = null;
+
+/* ---- theme ---- */
+function theme(h) {
+  const T = CONFIG.THEME, r = document.documentElement.style, hsl = (hh, c) => `hsl(${hh} ${c.s}% ${c.l}%)`;
+  r.setProperty('--h', h);
+  r.setProperty('--curtain', hsl(h, T.curtain));
+  r.setProperty('--curtain2', hsl(h, T.curtain2));
+  r.setProperty('--tv', hsl((h + T.tvShift) % 360, T.tv));
+  r.setProperty('--chair', hsl(h, T.chair));
+  r.setProperty('--acc', hsl(T.accent.h, T.accent));
+}
+
+/* ---- sounds: your uploaded files if set (host dashboard), else built-in "faaahhh" and "I got this" ---- */
+let AC = null; const BUF = {};
+function ac() {
+  if (!AC) {
+    try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) { return null; }
+  }
+  if (AC.state === 'suspended') { try { AC.resume(); } catch(e) {} }
+  return AC;
+}
+['pointerdown', 'keydown'].forEach(e => document.addEventListener(e, ac, {passive:true}));
+function loadBuf(k) {
+  const c = AC; if (!c) return Promise.resolve(null);
+  const dec = ab => new Promise(r => { try { c.decodeAudioData(ab, b => { BUF[k] = b; r(b); }, () => r(null)); } catch(e) { r(null); } });
+  if (CONFIG.API_URL) return fetch(BASE() + '/sound/' + k).then(r => r.ok ? r.arrayBuffer() : null).then(ab => ab ? dec(ab) : null).catch(() => null);
+  const url = mem.sounds && mem.sounds[k]; if (!url || url === 'server') return Promise.resolve(null);
+  try {
+    const bin = atob(url.split(',')[1]), u = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    return dec(u.buffer);
+  } catch(e) { return Promise.resolve(null); }
+}
+const triedL = {};
+async function playLine(k) {            // plays your recorded line if there is one; false means "use the phone voice"
+  const c = ac(); if (!c) return false;
+  let b = BUF[k]; if (!b && !triedL[k]) { triedL[k] = true; b = await loadBuf(k); }
+  if (!b) return false;
+  const s = c.createBufferSource(); s.buffer = b; s.connect(c.destination); s.start();
+  await sleep(b.duration * 1000); return true;
+}
+
+/* ---- characters, voices ---- */
+const roster = () => ROSTER.concat(mem.chars || []);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function fig(c, hat, who, extra) {
+  const f = c.g === 'f', bw = c.big ? 8 : 0;
+  return `<svg class="fig ${extra || ''}" id="fig-${who}" viewBox="-14 -14 108 164" aria-hidden="true">
+  ${c.wings ? `<path d="M26 54 L-12 14 L-8 84 L26 92Z" fill="${c.wings}"/><path d="M54 54 L92 14 L88 84 L54 92Z" fill="${c.wings}"/>` : ''}
+  ${c.cape ? `<path d="M22 54 L58 54 L72 134 L8 134Z" fill="${c.cape}"/>` : ''}
+  <rect class="l1" x="28" y="96" width="11" height="48" rx="5" fill="${c.bottom}"/><rect class="l2" x="41" y="96" width="11" height="48" rx="5" fill="${c.bottom}"/>
+  <rect x="${24 - bw / 2}" y="52" width="${32 + bw}" height="50" rx="10" fill="${c.top}"/>
+  ${f ? `<path d="M22 98 L58 98 L68 128 L12 128Z" fill="${c.bottom}"/>` : ''}
+  ${c.emblem ? `<circle cx="40" cy="72" r="6" fill="${c.emblem}"/>` : ''}
+  <rect class="armL" x="${13 - bw}" y="55" width="${10 + bw / 2}" height="40" rx="5" fill="${c.top}"/><rect class="armR" x="57" y="55" width="${10 + bw / 2}" height="40" rx="5" fill="${c.top}"/>
+  <circle cx="40" cy="34" r="19" fill="${c.skin}"/>
+  <path d="${f ? 'M20 34 Q20 8 40 8 Q60 8 60 34 L62 70 L50 70 L50 36 L30 36 L30 70 L18 70Z' : 'M21 32 Q22 10 40 10 Q58 10 59 32 Q50 22 40 24 Q30 22 21 32Z'}" fill="${c.hair}"/>
+  ${c.hood ? `<path d="M17 40 Q14 0 40 0 Q66 0 63 40 L58 34 Q40 16 22 34Z" fill="${c.hood}"/>` : ''}
+  ${c.helm ? `<path d="M19 32 Q19 5 40 5 Q61 5 61 32 L61 28 Q40 20 19 28Z" fill="${c.helm}"/>` : ''}
+  ${c.mask ? `<rect x="22" y="29" width="36" height="11" rx="5" fill="${c.mask}"/>` : ''}
+  <circle cx="33" cy="35" r="2.4" fill="${c.mask ? '#fff' : '#222'}"/><circle cx="47" cy="35" r="2.4" fill="${c.mask ? '#fff' : '#222'}"/>
+  <ellipse class="mouth" cx="40" cy="46" rx="5" ry="2.4" fill="#7a2b2b"/>
+  ${hat ? '<rect x="20" y="9" width="40" height="6" rx="2" fill="#111"/><rect x="27" y="-12" width="26" height="22" rx="3" fill="#111"/><rect x="27" y="2" width="26" height="5" fill="#d4a017"/>' : ''}
+  </svg>`;
+}
+const chairBack = k => `<svg class="chr" viewBox="-14 -14 108 164" aria-hidden="true"><g class="ch ${k}"><rect x="10" y="112" width="8" height="34" rx="3" class="cleg"/><rect x="62" y="112" width="8" height="34" rx="3" class="cleg"/><rect x="6" y="30" width="68" height="82" rx="16" class="cb1"/><rect x="13" y="37" width="54" height="68" rx="11" class="cb2"/></g></svg>`;
+const chairFront = k => `<svg class="chr" viewBox="-14 -14 108 164" aria-hidden="true"><g class="ch ${k}"><rect x="-5" y="62" width="15" height="48" rx="6" class="cb1"/><rect x="70" y="62" width="15" height="48" rx="6" class="cb1"/><rect x="-7" y="59" width="19" height="10" rx="5" class="cb2"/><rect x="68" y="59" width="19" height="10" rx="5" class="cb2"/><rect x="-2" y="97" width="84" height="20" rx="9" class="cb1"/><rect x="3" y="98" width="74" height="10" rx="5" class="cb2"/></g></svg>`;
+const seat = (c, hat, who, kind, dance) => `<div class="seatbox ${dance ? 'up' : ''}"><div class="cwrap cb">${chairBack(kind)}</div><div class="pf" style="--from:${who === 'h' ? '-140%' : '140%'}"><div class="cwrap">${fig(c, hat, who, dance ? 'dance' : '')}</div></div><div class="cwrap cf">${chairFront(kind)}</div></div>`;
+const confetti = () => Array.from({length:28}, (_, i) => `<i style="left:${(i * 37) % 100}%;animation-delay:${(i % 9) * 0.25}s;background:hsl(${(i * 47) % 360} 90% 60%)"></i>`).join('');
+const FEM = /female|woman|zira|heera|samantha|veena|lekha|swara|neerja|aditi|raveena|priya|kalpana|tessa|karen|susan|hazel|google.*(हिन्दी|hindi)/i;
+const MALE = /(^|[^a-z])male|hemant|ravi|prabhat|madhur|rishi|david|mark|james|george|daniel|fred|arthur|guy|ryan|neil|mohan|kumar/i;
+function voiceFor(c) {                 // male characters get a male voice, female characters a female voice
+  let vs = []; try { vs = speechSynthesis.getVoices() || []; } catch(e) {}
+  const hi = SEL.lang === 'hi', code = hi ? 'hi' : 'en', g = c.g === 'f' ? 'f' : 'm';
+  let pool = vs.filter(v => v.lang && v.lang.toLowerCase().startsWith(code));
+  const mine = mem.voices && mem.voices[g] && mem.voices[g][code], chosen = mine && pool.find(v => v.name === mine);
+  if (chosen) return chosen;
+  if (!hi) { const indian = pool.filter(v => /-in$/i.test(v.lang)); if (indian.length) pool = indian; }
+  if (!pool.length) return null;
+  const own = g === 'f' ? FEM : MALE, other = g === 'f' ? MALE : FEM;
+  const want = pool.filter(v => own.test(v.name) && !other.test(v.name)), use = want.length ? want : pool.filter(v => !other.test(v.name));
+  const list = use.length ? use : pool; let n = 0; for (const ch of c.id) n = (n * 31 + ch.charCodeAt(0)) >>> 0;
+  return list[n % list.length];
+}
+let voiceTok = 0;
+function speak(text, c, who, rate) {
+  return new Promise(res => {
+    try {
+      const u = new SpeechSynthesisUtterance(text), v = voiceFor(c), el = document.querySelector('#fig-' + who);
+      u.lang = SEL.lang === 'hi' ? 'hi-IN' : 'en-IN'; if (v) u.voice = v;
+      u.pitch = c.g === 'f' ? Math.max(c.p, 1.25) : Math.min(c.p, 0.9); u.rate = rate || c.r; u.volume = 1;
+      const done = () => { clearTimeout(t); try { el && el.classList.remove('talk'); } catch(e) {} GL3.talk(who, false); res(); };
+      const t = setTimeout(done, 4000 + text.length * 150);
+      u.onend = done; u.onerror = done;
+      try { el && el.classList.add('talk'); } catch(e) {}
+      GL3.talk(who, true);
+      speechSynthesis.speak(u);
+    } catch(e) { res(); }
+  });
+}
+const stopVoice = () => { voiceTok++; try { speechSynthesis.cancel(); } catch(e) {} };
+const greet = () => SEL.lang === 'hi' ? 'चलो अब शुरू करते हैं' : 'Chalo ab shuru karte hain';
+function qt(m, qi) {
+  const h = SEL.lang === 'hi' && HI[m.id] && HI[m.id][qi];
+  if (h) return {q:h[0], o:h[1]};
+  const g = SEL.lang === 'hg' && HG[m.id] && HG[m.id][qi];
+  return g ? {q:g, o:m.qs[qi].o} : m.qs[qi];
+}
+async function readQ(q) {              // the host reads the question, then the four options
+  stopVoice(); const tok = voiceTok, L = SEL.lang === 'hi' ? 'विकल्प' : 'Option';
+  await speak(q.q, SEL.host, 'h', 1); if (tok !== voiceTok) return;
+  for (let i = 0; i < 4; i++) { await speak(`${L} ${'ABCD'[i]}. ${q.o[i]}`, SEL.host, 'h', 1.5); if (tok !== voiceTok) return; }
+}
+const sayGreet = async () => { if (await playLine('greet')) return; await speak(greet(), SEL.host, 'h', 1); };
+function stinger(ok) {                  // loud dramatic sound that plays together with the host's line
+  try {
+    const c = ac(); if (!c) return;
+    const comp = c.createDynamicsCompressor(), t = c.currentTime; comp.connect(c.destination);
+    const note = (f1, f2, at, d, type, v) => {
+      const o = c.createOscillator(), g = c.createGain(); o.type = type;
+      o.frequency.setValueAtTime(f1, t + at); o.frequency.exponentialRampToValueAtTime(f2, t + at + d);
+      g.gain.setValueAtTime(v, t + at); g.gain.exponentialRampToValueAtTime(0.001, t + at + d);
+      o.connect(g); g.connect(comp); o.start(t + at); o.stop(t + at + d + 0.05);
+    };
+    note(120, 40, 0, 0.6, 'sine', 1);
+    if (ok) [392, 523, 659, 784].forEach((f, i) => note(f, f, 0.05 + i * 0.1, 1.5, 'sawtooth', 0.28));
+    else note(420, 55, 0.05, 1.9, 'sawtooth', 0.45);
+  } catch(e) {}
+}
+async function verdict(ok) {           // host reacts: your recording if there is one, else a loud dramatic voice
+  GL3.fx(ok);
+  if (await playLine(ok ? 'right' : 'wrong')) return;
+  const h = SEL.host || ROSTER[0], f = h.g === 'f';
+  stinger(ok); const t0 = Date.now();
+  await speak(ok ? 'You got thissss!' : 'Faaaaaaaaaahhhhhhhhhh!', Object.assign({}, h, ok ? {p: f ? 1.6 : 0.55, r: 0.5} : {p: f ? 1.25 : 0.3, r: 0.35}), 'h');
+  await sleep(Math.max(0, 1700 - (Date.now() - t0)));   // the line always lasts at least about 1.5 seconds
+}
+const sfx = ok => verdict(ok);
+async function announce(p, i, ok) {    // the player says the option, then the host reacts
+  stopVoice(); const tok = voiceTok, c = SEL.chars[p] || SEL.chars[0] || ROSTER[0], f = c.g === 'f', L = 'ABCD'[i];
+  if (!(await playLine((SEL.solo || p === 1 ? 'u2' : 'u1') + L))) {
+    const line = SEL.lang === 'hi' ? `मैं ऑप्शन ${L} चुनत${f ? 'ी' : 'ा'} हूँ` : SEL.lang === 'hg' ? `Main option ${L} chunt${f ? 'i' : 'a'} hoon` : `I choose option ${L}`;
+    await speak(line, c, p);
+  }
+  if (tok !== voiceTok) return;
+  await verdict(ok);
+}
+const winLine = c => SEL.lang === 'hi' ? `मैं जीत गय${c.g === 'f' ? 'ी' : 'ा'}` : SEL.lang === 'hg' ? `Ye main jeet gay${c.g === 'f' ? 'i' : 'a'}` : 'I won!';
+try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => { if (hostIn && document.querySelector('#hid') === null && typeof dash === 'function' && app.innerHTML.indexOf('Voices on this phone') > -1) {} }; } catch(e) {}
+/* ---- results: this device, plus your server when there is one ---- */
+function record(name, quiz, points, correct, wrong, players) {
+  const rec = {time:new Date().toISOString(), name, quiz, points, correct, wrong, answers:'', players};
+  mem.plays.push(rec); save();
+  if (CONFIG.API_URL) { try { fetch(API(), {method:'POST', body:JSON.stringify(rec)}).catch(() => {}); } catch(e) {} }
+}
+
+
+
+/* ===================  3D STAGE (plain WebGL, no library)  =================== */
+const GL3 = (() => { try { return buildGL3(); } catch(e) { return {ok:false, on:() => false, sync(){}, talk(){}, fx(){}}; } })();
+function buildGL3() {
+  const NO = {ok:false, on:() => false, sync(){}, talk(){}, fx(){}};
+  const cv = document.createElement('canvas'); cv.id = 'gl';
+  const gl = cv.getContext('webgl', {antialias:true, alpha:false}) || cv.getContext('experimental-webgl');
+  if (!gl) return NO;
+  document.body.appendChild(cv);
+  // ---------- matrices ----------
+  const mul = (a, b) => { const o = new Float32Array(16); for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++) o[c*4+r] = a[r]*b[c*4] + a[4+r]*b[c*4+1] + a[8+r]*b[c*4+2] + a[12+r]*b[c*4+3]; return o; };
+  const persp = (f, a, n, fa) => { const t = 1 / Math.tan(f / 2), o = new Float32Array(16); o[0] = t / a; o[5] = t; o[10] = (fa + n) / (n - fa); o[11] = -1; o[14] = 2 * fa * n / (n - fa); return o; };
+  const look = (e, c) => {
+    let zx = e[0]-c[0], zy = e[1]-c[1], zz = e[2]-c[2], l = Math.hypot(zx, zy, zz); zx /= l; zy /= l; zz /= l;
+    let xx = zz, xy = 0, xz = -zx; l = Math.hypot(xx, xz); xx /= l; xz /= l;
+    const yx = zy*xz - zz*xy, yy = zz*xx - zx*xz, yz = zx*xy - zy*xx, o = new Float32Array(16);
+    o[0]=xx; o[1]=yx; o[2]=zx; o[4]=xy; o[5]=yy; o[6]=zy; o[8]=xz; o[9]=yz; o[10]=zz;
+    o[12]=-(xx*e[0]+xy*e[1]+xz*e[2]); o[13]=-(yx*e[0]+yy*e[1]+yz*e[2]); o[14]=-(zx*e[0]+zy*e[1]+zz*e[2]); o[15]=1; return o;
+  };
+  const M = new Float32Array(16), stk = Array.from({length:16}, () => new Float32Array(16)); let sp = 0;
+  const idn = () => M.set([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
+  const push = () => stk[sp++].set(M), pop = () => M.set(stk[--sp]);
+  const tr = (x, y, z) => { M[12] += M[0]*x + M[4]*y + M[8]*z; M[13] += M[1]*x + M[5]*y + M[9]*z; M[14] += M[2]*x + M[6]*y + M[10]*z; };
+  const sc = (x, y, z) => { M[0]*=x; M[1]*=x; M[2]*=x; M[3]*=x; M[4]*=y; M[5]*=y; M[6]*=y; M[7]*=y; M[8]*=z; M[9]*=z; M[10]*=z; M[11]*=z; };
+  const rot = (a, i, j) => { const c = Math.cos(a), s = Math.sin(a); for (let r = 0; r < 4; r++) { const p = M[i*4+r], q = M[j*4+r]; M[i*4+r] = c*p + s*q; M[j*4+r] = -s*p + c*q; } };
+  const rx = a => rot(a, 1, 2), ry = a => rot(a, 2, 0), rz = a => rot(a, 0, 1);
+  const NM = new Float32Array(9);
+  const nmat = () => {
+    const a00=M[0],a01=M[4],a02=M[8],a10=M[1],a11=M[5],a12=M[9],a20=M[2],a21=M[6],a22=M[10];
+    const c00=a11*a22-a12*a21, c01=a12*a20-a10*a22, c02=a10*a21-a11*a20, c10=a02*a21-a01*a22, c11=a00*a22-a02*a20, c12=a01*a20-a00*a21, c20=a01*a12-a02*a11, c21=a02*a10-a00*a12, c22=a00*a11-a01*a10;
+    const id = 1 / (a00*c00 + a01*c01 + a02*c02 || 1);
+    NM[0]=c00*id; NM[1]=c10*id; NM[2]=c20*id; NM[3]=c01*id; NM[4]=c11*id; NM[5]=c21*id; NM[6]=c02*id; NM[7]=c12*id; NM[8]=c22*id;
+  };
+  // ---------- shaders ----------
+  const prog = (vs, fs, attrs) => {
+    const mk = (t, s) => { const h = gl.createShader(t); gl.shaderSource(h, s); gl.compileShader(h); if (!gl.getShaderParameter(h, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(h)); return h; };
+    const p = gl.createProgram(); gl.attachShader(p, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(p, mk(gl.FRAGMENT_SHADER, fs));
+    attrs.forEach((n, i) => gl.bindAttribLocation(p, i, n)); gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for (let i = 0; i < n; i++) { const nm = gl.getActiveUniform(p, i).name; u[nm] = gl.getUniformLocation(p, nm); }
+    return {p, u};
+  };
+  const PM = prog(`attribute vec3 aP; attribute vec3 aN; uniform mat4 uVP; uniform mat4 uM; uniform mat3 uNM; varying vec3 vN; varying vec3 vW;
+    void main(){ vec4 w = uM*vec4(aP,1.0); vW = w.xyz; vN = uNM*aN; gl_Position = uVP*w; }`,
+   `precision mediump float; varying vec3 vN; varying vec3 vW; uniform vec3 uCol; uniform vec3 uEye; uniform vec3 uFog; uniform vec3 uFlash;
+    uniform vec3 uPL0; uniform vec3 uPL1; uniform vec3 uPL2; uniform vec3 uPC0; uniform vec3 uPC1; uniform vec3 uPC2;
+    uniform float uAlpha; uniform float uEmis; uniform float uSpec;
+    vec3 pl(vec3 n, vec3 v, vec3 P, vec3 C){ vec3 l = P - vW; float d = length(l); l /= d; float att = 1.0/(1.0+0.045*d*d);
+      float nd = max(dot(n,l),0.0); vec3 h = normalize(l+v); return uCol*C*nd*att + C*pow(max(dot(n,h),0.0), 28.0)*uSpec*att; }
+    void main(){ vec3 c;
+      if (uEmis > 0.99) c = uCol;
+      else { vec3 n = normalize(vN); vec3 v = normalize(uEye - vW);
+        c = uCol*0.36 + uFlash*uCol*0.9; c += uCol*vec3(1.0,0.95,0.85)*0.5*max(dot(n,normalize(vec3(0.3,1.0,0.6))),0.0);
+        c += pl(n,v,uPL0,uPC0) + pl(n,v,uPL1,uPC1) + pl(n,v,uPL2,uPC2); c += uCol*uEmis; }
+      float f = clamp((length(uEye-vW)-16.0)/34.0, 0.0, 1.0); c = mix(c, uFog, f);
+      gl_FragColor = vec4(c, uAlpha); }`, ['aP', 'aN']);
+  const PP = prog(`attribute vec3 aP; attribute vec4 aC; attribute float aS; uniform mat4 uVP; uniform float uPx; varying vec4 vC;
+    void main(){ vec4 p = uVP*vec4(aP,1.0); gl_Position = p; gl_PointSize = clamp(aS*uPx/p.w, 1.0, 120.0); vC = aC; }`,
+   `precision mediump float; varying vec4 vC; void main(){ float d = length(gl_PointCoord-0.5); float a = smoothstep(0.5,0.05,d); gl_FragColor = vec4(vC.rgb, vC.a*a); }`, ['aP', 'aC', 'aS']);
+  // ---------- meshes ----------
+  const mesh = (v, ix) => { const vb = gl.createBuffer(), ib = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(v), gl.STATIC_DRAW); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(ix), gl.STATIC_DRAW); return {vb, ib, n:ix.length}; };
+  const cube = (() => { const v = [], ix = [], F = [[0,0,1,1,0,0,0,1,0],[0,0,-1,-1,0,0,0,1,0],[1,0,0,0,0,-1,0,1,0],[-1,0,0,0,0,1,0,1,0],[0,1,0,1,0,0,0,0,-1],[0,-1,0,1,0,0,0,0,1]];
+    F.forEach((f, k) => { const [nx,ny,nz,ux,uy,uz,vx,vy,vz] = f; for (const [a, b] of [[-1,-1],[1,-1],[1,1],[-1,1]]) v.push((nx+a*ux+b*vx)*.5,(ny+a*uy+b*vy)*.5,(nz+a*uz+b*vz)*.5,nx,ny,nz); ix.push(k*4,k*4+1,k*4+2,k*4,k*4+2,k*4+3); }); return mesh(v, ix); })();
+  const sph = (() => { const v = [], ix = [], R = 12, S = 18; for (let i = 0; i <= R; i++) { const th = i/R*Math.PI; for (let j = 0; j <= S; j++) { const ph = j/S*2*Math.PI, x = Math.sin(th)*Math.cos(ph), y = Math.cos(th), z = Math.sin(th)*Math.sin(ph); v.push(x*.5,y*.5,z*.5,x,y,z); } }
+    for (let i = 0; i < R; i++) for (let j = 0; j < S; j++) { const a = i*(S+1)+j, b = a+S+1; ix.push(a,b,a+1,b,b+1,a+1); } return mesh(v, ix); })();
+  const frus = (rt, rb, seg = 22) => { const v = [], ix = [], sl = rb - rt, l = Math.hypot(1, sl);
+    for (let j = 0; j <= seg; j++) { const a = j/seg*2*Math.PI, c = Math.cos(a), s = Math.sin(a); v.push(c*rt,.5,s*rt,c/l,sl/l,s/l, c*rb,-.5,s*rb,c/l,sl/l,s/l); }
+    for (let j = 0; j < seg; j++) { const a = j*2; ix.push(a,a+1,a+2,a+1,a+3,a+2); }
+    const cap = (y, r, ny) => { const b = v.length / 6; v.push(0,y,0,0,ny,0); for (let j = 0; j <= seg; j++) { const a = j/seg*2*Math.PI; v.push(Math.cos(a)*r,y,Math.sin(a)*r,0,ny,0); } for (let j = 0; j < seg; j++) ix.push(b,b+1+j,b+2+j); };
+    cap(.5, rt, 1); cap(-.5, rb, -1); return mesh(v, ix); };
+  const cyl = frus(.5, .5), cone = frus(0, .5), skirt = frus(.28, .5);
+  const torus = (R, r, seg = 48, ts = 10) => { const v = [], ix = []; for (let i = 0; i <= seg; i++) { const a = i/seg*2*Math.PI; for (let j = 0; j <= ts; j++) { const b = j/ts*2*Math.PI, nx = Math.cos(a)*Math.cos(b), ny = Math.sin(b), nz = Math.sin(a)*Math.cos(b); v.push((R*Math.cos(a))+r*nx, r*ny, (R*Math.sin(a))+r*nz, nx, ny, nz); } }
+    for (let i = 0; i < seg; i++) for (let j = 0; j < ts; j++) { const a = i*(ts+1)+j, b = a+ts+1; ix.push(a,b,a+1,b,b+1,a+1); } return mesh(v, ix); };
+  const ring = torus(1, .005), truss = torus(1, .035);
+  // ---------- drawing ----------
+  let VP = null, eye = [0, 3, 10];
+  const D = (m, c, a, e, spc) => {
+    gl.uniformMatrix4fv(PM.u.uM, false, M); nmat(); gl.uniformMatrix3fv(PM.u.uNM, false, NM);
+    gl.uniform3f(PM.u.uCol, c[0], c[1], c[2]); gl.uniform1f(PM.u.uAlpha, a == null ? 1 : a); gl.uniform1f(PM.u.uEmis, e || 0); gl.uniform1f(PM.u.uSpec, spc == null ? .3 : spc);
+    gl.bindBuffer(gl.ARRAY_BUFFER, m.vb); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, m.ib);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 24, 0); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 24, 12); gl.drawElements(gl.TRIANGLES, m.n, gl.UNSIGNED_SHORT, 0);
+  };
+  const rgbC = {}; const rgb = h => rgbC[h] || (rgbC[h] = [parseInt(h.slice(1,3),16)/255, parseInt(h.slice(3,5),16)/255, parseInt(h.slice(5,7),16)/255]);
+  const hsl = (h, s, l) => { h = (((h % 360) + 360) % 360) / 360; const a = s * Math.min(l, 1 - l), f = n => { const k = (n + h * 12) % 12; return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)); }; return [f(0), f(8), f(4)]; };
+  const SKIN = [0,0,0], BLK = [.05,.05,.07], WHT = [1,1,1], RED = [.55,.12,.12], GOLD = [.85,.65,.12];
+  const S = {hue:350, seats:[], walkAt:-1, introAt:-1, cele:-1, danceIdx:-1, talk:{}, shake:0, flash:0, pulse:-9, parts:[], lowq:false, last:0, slow:0};
+  function person(c, o) {
+    const sk = rgb(c.skin), ha = rgb(c.hair), to = rgb(c.top), bo = rgb(c.bottom), f = c.g === 'f', big = c.big ? 1.3 : 1, t = o.t, sit = o.sit;
+    const mouth = S.talk[o.who] ? .5 + .5 * Math.sin(t * 18) : 0, sw = o.walk ? Math.sin(o.ph) : (o.dance ? Math.sin(t * 9) * .5 : 0);
+    push(); tr(o.x, 0, o.z); ry(o.face); sc(o.s, o.s, o.s);
+    tr(0, -.65 * sit + (o.dance ? Math.abs(Math.sin(t * 7)) * .55 : Math.sin(t * 2 + o.x) * .02), 0);
+    for (const sd of [-1, 1]) {                                   // legs
+      push(); tr(sd * .22, 1.35, 0); rx(-1.571 * sit + sw * .7 * sd);
+      push(); tr(0, -.33, 0); sc(.3, .66, .3); D(cyl, bo, 1, 0, .1); pop();
+      tr(0, -.66, 0); rx(1.571 * sit);
+      push(); tr(0, -.33, 0); sc(.26, .66, .26); D(cyl, bo, 1, 0, .1); pop();
+      push(); tr(0, -.72, .1); sc(.3, .14, .5); D(cube, BLK, 1, 0, .5); pop(); pop();
+    }
+    push(); tr(0, 1.9, 0); sc(.85 * big, 1.1, .52 * big); D(cyl, to, 1, 0, .35); pop();   // torso
+    push(); tr(0, 1.38, 0); sc(.8 * big, .4, .5 * big); D(sph, bo, 1, 0, .1); pop();
+    if (f) { push(); tr(0, 1.15, 0); sc(1.1, .8, .8); D(skirt, bo, 1, 0, .15); pop(); }
+    if (c.emblem) { push(); tr(0, 2.05, .27 * big); sc(.26, .26, .07); D(sph, rgb(c.emblem), 1, .55, .6); pop(); }
+    if (c.cape) { push(); tr(0, 1.7, -.36 * big); rx(.1 + (o.walk ? Math.abs(Math.sin(o.ph)) * .3 : 0) + (o.dance ? Math.sin(t * 8) * .12 : 0)); sc(1.05 * big, 1.9, .08); D(cube, rgb(c.cape), 1, 0, .2); pop(); }
+    if (c.wings) for (const sd of [-1, 1]) { push(); tr(sd * .95, 2.2, -.42); rz(-sd * (.5 + Math.sin(t * (o.dance ? 9 : 2.5)) * .12)); sc(1.4, 1.7, .06); D(cube, rgb(c.wings), 1, 0, .4); pop(); }
+    for (const sd of [-1, 1]) {                                   // arms
+      push(); tr(sd * .6 * big, 2.42, 0);
+      rz(sd * (o.dance ? 2.3 + Math.sin(t * 10) * .4 : .14));
+      rx(o.walk ? -Math.sin(o.ph) * sd * .6 : -.55 * sit);
+      push(); tr(0, -.42, 0); sc(.24 * big, .84, .24 * big); D(cyl, to, 1, 0, .2); pop();
+      push(); tr(0, -.9, 0); sc(.24, .24, .24); D(sph, sk, 1, 0, .2); pop(); pop();
+    }
+    push(); tr(0, 2.97 + (o.nod || 0), 0); ry(o.dance ? Math.sin(t * 6) * .4 : 0);                // head
+    push(); sc(.78, .84, .78); D(sph, sk, 1, 0, .25); pop();
+    push(); tr(0, .14, -.05); sc(.84, .62, .84); D(sph, ha, 1, 0, .2); pop();
+    if (f) { push(); tr(0, -.18, -.24); sc(.82, 1.0, .34); D(sph, ha, 1, 0, .2); pop(); }
+    if (c.hood) { push(); tr(0, .05, -.13); sc(.96, .96, .86); D(sph, rgb(c.hood), 1, 0, .2); pop(); }
+    if (c.helm) { push(); tr(0, .27, -.02); sc(.88, .6, .88); D(sph, rgb(c.helm), 1, 0, .8); pop(); }
+    if (c.mask) { push(); tr(0, .07, .3); sc(.74, .2, .2); D(cube, rgb(c.mask), 1, 0, .3); pop(); }
+    for (const sd of [-1, 1]) { push(); tr(sd * .15, .06, .34); sc(.12, .13, .07); D(sph, WHT, 1, 0, .2); pop(); push(); tr(sd * .15, .06, .38); sc(.06, .07, .04); D(sph, BLK, 1, 0, .2); pop(); }
+    push(); tr(0, -.17, .35); sc(.17, .03 + .12 * mouth, .05); D(sph, RED, 1, 0, .1); pop();
+    if (o.hat) { push(); tr(0, .42, 0); push(); sc(1, .07, 1); D(cyl, BLK, 1, 0, .4); pop(); push(); tr(0, .3, 0); sc(.58, .6, .58); D(cyl, BLK, 1, 0, .4); pop(); push(); tr(0, .08, 0); sc(.6, .1, .6); D(cyl, GOLD, 1, 0, .8); pop(); pop(); }
+    pop(); pop();
+  }
+  function chair(o, host) {
+    const lea = host ? [.22, .12, .08] : [.07, .16, .36], cus = host ? [.48, .27, .16] : [.18, .38, .75];
+    push(); tr(o.x, 0, o.z); ry(o.face); sc(o.s, o.s, o.s);
+    push(); tr(0, .5, .05); sc(1.7, .3, 1.5); D(cube, cus, 1, 0, .5); pop();
+    push(); tr(0, 1.6, -.72); sc(1.7, 2.2, .3); D(cube, lea, 1, 0, .5); pop();
+    push(); tr(0, 1.6, -.58); sc(1.35, 1.8, .12); D(cube, cus, 1, 0, .4); pop();
+    for (const sd of [-1, 1]) { push(); tr(sd * .92, 1.05, .1); sc(.24, .22, 1.35); D(cube, lea, 1, 0, .5); pop(); push(); tr(sd * .92, .75, .5); sc(.2, .5, .2); D(cube, lea, 1, 0, .3); pop();
+      push(); tr(sd * .7, .17, .6); sc(.22, .36, .22); D(cyl, BLK, 1, 0, .6); pop(); push(); tr(sd * .7, .17, -.5); sc(.22, .36, .22); D(cyl, BLK, 1, 0, .6); pop(); }
+    pop();
+  }
+  // ---------- particles ----------
+  const MAXP = 700, pbuf = gl.createBuffer(), pd = new Float32Array(MAXP * 8); gl.bindBuffer(gl.ARRAY_BUFFER, pbuf); gl.bufferData(gl.ARRAY_BUFFER, pd.byteLength, gl.DYNAMIC_DRAW);
+  const stars = (() => { const a = []; for (let i = 0; i < 260; i++) { const th = Math.random() * 6.283, ph = Math.acos(Math.random() * .85), r = 60; a.push(r * Math.sin(ph) * Math.cos(th), 6 + r * Math.cos(ph) * .8, r * Math.sin(ph) * Math.sin(th) - 10, .8, .9, 1, .5 + Math.random() * .5, .6 + Math.random() * .9); } const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(a), gl.STATIC_DRAW); return {b, n:260}; })();
+  const addP = (x, y, z, vx, vy, vz, c, size, life, grav) => { if (S.parts.length < 500) S.parts.push({x, y, z, vx, vy, vz, c, size, life, max:life, grav}); };
+  function drawPoints(buf, n) {
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.enableVertexAttribArray(2);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 32, 0); gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 32, 12); gl.vertexAttribPointer(2, 1, gl.FLOAT, false, 32, 28);
+    gl.drawArrays(gl.POINTS, 0, n);
+  }
+  // ---------- layout: put the 3D people where the page's seat boxes are ----------
+  const FOV = .66, BASE_E = [0, 3.6, 11.5], BASE_C = [0, 1.9, 0];
+  function place() {
+    const Wc = innerWidth, Hc = innerHeight, boxes = document.querySelectorAll('.seatbox'), th = Math.tan(FOV / 2), asp = Wc / Hc;
+    let f = [BASE_C[0]-BASE_E[0], BASE_C[1]-BASE_E[1], BASE_C[2]-BASE_E[2]]; const fl = Math.hypot(...f); f = f.map(v => v / fl);
+    let r = [-f[2], 0, f[0]]; const rl = Math.hypot(r[0], r[2]); r = [r[0] / rl, 0, r[2] / rl]; const u = [r[1]*f[2]-r[2]*f[1], r[2]*f[0]-r[0]*f[2], r[0]*f[1]-r[1]*f[0]];
+    const old = S.seats; S.seats = [];
+    boxes.forEach((b, i) => {
+      const q = b.getBoundingClientRect(), nx = ((q.left + q.width / 2) / Wc) * 2 - 1, ny = 1 - (q.bottom / Hc) * 2;
+      const d = [f[0] + r[0]*nx*th*asp + u[0]*ny*th, f[1] + r[1]*nx*th*asp + u[1]*ny*th, f[2] + r[2]*nx*th*asp + u[2]*ny*th], t = -BASE_E[1] / d[1];
+      const px = BASE_E[0] + d[0]*t, pz = BASE_E[2] + d[2]*t, depth = (px-BASE_E[0])*f[0] + (-BASE_E[1])*f[1] + (pz-BASE_E[2])*f[2], wpp = 2 * th * depth / Hc;
+      const prev = old[i]; S.seats[i] = {x:px, z:pz, s:q.height * wpp / 3.0, face:i === 0 ? .3 : (px > 0 ? -.28 : .28), sit:prev ? prev.sit : 1, who:i === 0 ? 'h' : i - 1, host:i === 0};
+    });
+  }
+  function resize() { const dpr = Math.min(window.devicePixelRatio || 1, S.lowq ? 1 : 1.5), w = Math.round(innerWidth * dpr), h = Math.round(innerHeight * dpr); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; place(); } }
+  addEventListener('resize', () => setTimeout(() => { place(); }, 120));
+  // ---------- frame ----------
+  const ease = k => k * k * (3 - 2 * k), clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  function frame(ts) {
+    requestAnimationFrame(frame);
+    if (!document.querySelector('.set.g3')) { S.last = 0; return; }
+    resize(); const now = ts / 1000, dt = S.last ? Math.min(.05, now - S.last) : .016; S.last = now;
+    if (dt > .036) S.slow++; else S.slow = Math.max(0, S.slow - 1);
+    if (S.slow > 90 && !S.lowq) { S.lowq = true; cv.width = 1; resize(); }
+    update(now, dt); render(now);
+  }
+  function update(now, dt) {
+    S.shake *= Math.max(0, 1 - dt * 3); S.flash *= Math.max(0, 1 - dt * 2.5);
+    S.seats.forEach((a, i) => {
+      let target = 1; a.walk = false; a.dance = false; a.dx = 0;
+      if (S.walkAt >= 0 && now - S.walkAt < 2.3) { const k = clamp((now - S.walkAt) / 2.2, 0, 1); a.dx = (1 - ease(k)) * (a.host ? -17 : 17); a.walk = k < 1; a.ph = now * 9; target = 0; if (k >= 1) target = 1; }
+      if (S.cele >= 0 && S.danceIdx === i - 1) { a.dance = true; target = 0; }
+      a.sit += (target - a.sit) * Math.min(1, dt * 7); if (Math.abs(target - a.sit) < .01) a.sit = target;
+    });
+    if (S.cele >= 0) { S.acc = (S.acc || 0) + dt * 50; while (S.acc >= 1) { S.acc--; if (S.parts.length < 380) addP((Math.random() - .5) * 18, 9, (Math.random() - .5) * 8 + 2, (Math.random() - .5) * .8, -2 - Math.random() * 2, 0, hsl(Math.random() * 360, .9, .6), .34, 4.5, .0); } }
+    for (const p of S.parts) { p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt; p.vy -= p.grav * dt; if (p.grav === 0) p.x += Math.sin(now * 3 + p.y * 2) * .02; }
+    S.parts = S.parts.filter(p => p.life > 0 && p.y > -.2);
+  }
+  function render(now) {
+    const asp = cv.width / cv.height; let e = BASE_E.slice(), c = BASE_C.slice();
+    if (S.introAt >= 0 && now - S.introAt < 2.8) { const k = ease(clamp((now - S.introAt) / 2.6, 0, 1)); e = [0, 8 + (BASE_E[1] - 8) * k, 20 + (BASE_E[2] - 20) * k]; c = [0, 3.6 + (BASE_C[1] - 3.6) * k, 0]; }
+    e[0] += Math.sin(now * .3) * .35; e[1] += Math.sin(now * .23) * .12;
+    const pk = clamp(1 - (now - S.pulse) / .9, 0, 1); e[2] -= Math.sin(pk * Math.PI) * .9;
+    if (S.cele >= 0) { const a = Math.sin((now - S.cele) * .4) * .2, dx = e[0], dz = e[2] - c[2]; e[0] = dx * Math.cos(a) + dz * Math.sin(a); e[2] = c[2] - dx * Math.sin(a) + dz * Math.cos(a); e[1] += 1; }
+    if (S.shake > .01) { e[0] += (Math.random() - .5) * S.shake; e[1] += (Math.random() - .5) * S.shake; }
+    eye = e; VP = mul(persp(FOV, asp, .5, 140), look(e, c));
+    const hue = S.hue, key = hsl(hue, .85, .6), key2 = hsl(hue + 150, .85, .6), floorC = hsl(hue, .6, .13), skyC = hsl(hue, .55, .035);
+    gl.viewport(0, 0, cv.width, cv.height); gl.clearColor(skyC[0], skyC[1], skyC[2], 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.disable(gl.CULL_FACE);
+    gl.useProgram(PM.p); gl.disableVertexAttribArray(2); gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
+    const u = PM.u; gl.uniformMatrix4fv(u.uVP, false, VP); gl.uniform3f(u.uEye, e[0], e[1], e[2]); gl.uniform3f(u.uFog, skyC[0], skyC[1], skyC[2]);
+    const fl = S.flash; gl.uniform3f(u.uFlash, fl * (S.flashOk ? .3 : 1), fl * (S.flashOk ? .25 : .1), fl * (S.flashOk ? .05 : .1));
+    gl.uniform3f(u.uPL0, 0, 8, 7); gl.uniform3f(u.uPC0, 1.7, 1.55, 1.3);
+    gl.uniform3f(u.uPL1, -8, 4.5, 4); gl.uniform3f(u.uPC1, key[0] * 2.2, key[1] * 2.2, key[2] * 2.2);
+    gl.uniform3f(u.uPL2, 8, 4.5, 4); gl.uniform3f(u.uPC2, key2[0] * 2.2, key2[1] * 2.2, key2[2] * 2.2);
+    const actors = () => {
+      S.seats.forEach((a, i) => { const c2 = i === 0 ? SEL.host : (SEL.chars[i - 1] || ROSTER[0]); chair({x:a.x, z:a.z, s:a.s, face:a.face}, a.host); });
+      S.seats.forEach((a, i) => { const c2 = i === 0 ? SEL.host : (SEL.chars[i - 1] || ROSTER[0]); person(c2, {x:a.x + a.dx, z:a.z, s:a.s, face:a.face, sit:a.sit, walk:a.walk, ph:a.ph || 0, dance:a.dance, hat:a.host, who:a.who, t:now}); });
+      push(); tr(0, 8.6, -1); sc(9, 9, 9); D(truss, [.55, .58, .65], 1, 0, .9); pop();
+    };
+    if (!S.lowq) { idn(); sc(1, -1, 1); actors(); }
+    idn(); tr(0, -.1, 0); sc(120, .2, 120); D(cyl, floorC, S.lowq ? 1 : .78, 0, 1.1);          // glossy floor
+    for (const [R, col] of [[10.5, key], [8.2, key2], [5.8, key], [3.4, key2]]) { idn(); tr(0, .03, 1); sc(R, R, R); D(ring, col, .9, 1); }
+    idn(); actors();
+    // bulbs on the truss + light beams (additive)
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE); gl.depthMask(false);
+    for (let i = 0; i < 7; i++) {
+      const ph = i / 7 * 6.283 + now * .15, lx = Math.cos(ph) * 8.6, lz = Math.sin(ph) * 8.6 - 1, tx = Math.sin(now * .6 + i * 1.7) * 6, tz = Math.cos(now * .45 + i * 2.3) * 3 + 1;
+      const dx = tx - lx, dy = -8.6, dz = tz - lz, th = Math.atan2(Math.hypot(dx, dz), -dy), psi = Math.atan2(-dx, -dz), len = Math.hypot(dx, dy, dz), col = i % 2 ? key : key2;
+      idn(); tr(lx, 8.6, lz); ry(psi); rx(th); tr(0, -len / 2, 0); sc(1.7, len, 1.7); D(cone, col, .1, 1);
+    }
+    if (S.cele >= 0 && S.danceIdx >= 0 && S.seats[S.danceIdx + 1]) { const w = S.seats[S.danceIdx + 1]; idn(); tr(w.x, 8.6, w.z); sc(3.2, 8.6, 3.2); tr(0, -.5, 0); D(cone, [1, .9, .5], .2, 1); }
+    gl.useProgram(PP.p); gl.uniformMatrix4fv(PP.u.uVP, false, VP); gl.uniform1f(PP.u.uPx, cv.height / (2 * Math.tan(FOV / 2)));
+    gl.enableVertexAttribArray(1); drawPoints(stars.b, stars.n);
+    let n = 0;
+    for (let i = 0; i < 14; i++) { const ph = i / 14 * 6.283, o = n++ * 8; pd[o] = Math.cos(ph) * 8.6; pd[o+1] = 8.6; pd[o+2] = Math.sin(ph) * 8.6 - 1; const gcol = i % 2 ? key : [1, .93, .75]; pd[o+3] = gcol[0]; pd[o+4] = gcol[1]; pd[o+5] = gcol[2]; pd[o+6] = .75; pd[o+7] = .7; }
+    for (const p of S.parts) { if (n >= MAXP) break; const o = n++ * 8, k = clamp(p.life / p.max, 0, 1); pd[o] = p.x; pd[o+1] = p.y; pd[o+2] = p.z; pd[o+3] = p.c[0]; pd[o+4] = p.c[1]; pd[o+5] = p.c[2]; pd[o+6] = Math.min(1, k * 2.6); pd[o+7] = p.size; }
+    gl.bindBuffer(gl.ARRAY_BUFFER, pbuf); gl.bufferSubData(gl.ARRAY_BUFFER, 0, pd.subarray(0, n * 8)); drawPoints(pbuf, n);
+    gl.depthMask(true); gl.disableVertexAttribArray(2);
+  }
+  requestAnimationFrame(frame);
+  return {
+    ok:true, dbg: () => JSON.stringify({parts:S.parts.length, first:S.parts[0], walkAt:S.walkAt, cele:S.cele, dance:S.danceIdx, lowq:S.lowq, slow:S.slow, w:cv.width, h:cv.height}),
+    on: () => (typeof mem !== 'undefined' ? mem.gfx !== '2d' : true),
+    talk: (who, on) => { S.talk[who] = on; },
+    fx: ok => {
+      const now = performance.now() / 1000, h = S.seats[0];
+      if (ok) { S.flashOk = true; S.flash = .5; if (h) for (let i = 0; i < 70; i++) addP(h.x, 3.6 * h.s + 1, h.z, (Math.random() - .5) * 5, 2 + Math.random() * 4, (Math.random() - .5) * 3, [1, .8 + Math.random() * .2, .3], .3, 1.4, 5); }
+      else { S.flashOk = false; S.flash = 1; S.shake = .55; if (h) for (let i = 0; i < 50; i++) addP(h.x + (Math.random() - .5) * 2, 3.4 * h.s, h.z, (Math.random() - .5) * 2, Math.random() * 2, (Math.random() - .5) * 2, [.6 + Math.random() * .3, .1, .08], .4, 1.8, -.4); }
+    },
+    sync: cfg => {
+      const now = performance.now() / 1000; S.hue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--h')) || 350;
+      place();
+      if (cfg.walk) { S.walkAt = now; S.introAt = now; S.seats.forEach(a => { a.sit = 0; }); }
+      else if (S.walkAt >= 0 && now - S.walkAt >= 2.3) { S.walkAt = -1; }
+      if (cfg.cele) { if (S.cele < 0) { S.cele = now; } S.danceIdx = cfg.dance == null ? -1 : cfg.dance; } else { S.cele = -1; S.danceIdx = -1; if (!cfg.walk) S.pulse = now; }
+    }
+  };
+}
+
+/* ---- screens ---- */
+function toggleGfx() { mem.gfx = mem.gfx === '2d' ? '3d' : '2d'; save(); home(); }
+function home() {
+  theme(350); resetNet(); hostIn = false; stopVoice();
+  app.innerHTML = `<div class="logo"><span>KBB</span></div>
+  <h1 class="title">Kaun Banega Bhikhari</h1>
+  <div class="stack">
+   <button class="go" onclick="flow('solo', () => pickMode(false))">Play solo</button>
+   <button class="go" onclick="friendMenu()">Play with a friend</button>
+   <button onclick="login()">Host login</button>
+   ${GL3.ok ? `<button class="link" onclick="toggleGfx()">Graphics: ${mem.gfx === '2d' ? '2D (tap for 3D)' : '3D (tap for 2D)'}</button>` : ''}
+  </div>`;
+}
+
+/* language, then character(s), then whatever comes next */
+function flow(kind, done) {
+  langScreen(() => charScreen(0, kind === 'two' ? 'Player 1' : 'You', () => kind === 'two' ? charScreen(1, 'Player 2', done) : done()));
+}
+function langScreen(cb) {
+  theme(350);
+  app.innerHTML = `<h2>Choose language / भाषा चुनें</h2><div class="stack" style="margin-top:14px">
+  <button class="go" id="lh">हिन्दी</button><button class="go" id="le">English</button><button class="go" id="lg">Hinglish</button><button class="link" onclick="home()">Back</button></div>`;
+  $('#lh').onclick = () => { SEL.lang = 'hi'; cb(); };
+  $('#le').onclick = () => { SEL.lang = 'en'; cb(); };
+  $('#lg').onclick = () => { SEL.lang = 'hg'; cb(); };
+}
+let CP = null, charTab = 'm';
+function charScreen(slot, label, cb) { CP = {slot, label, cb}; drawChars(); }
+function drawChars() {
+  app.innerHTML = `<h2>${esc(CP.label)}: pick your character</h2>
+  <div class="tabs"><button class="${charTab === 'm' ? 'go' : ''}" onclick="charTab='m';drawChars()">Boys</button><button class="${charTab === 'f' ? 'go' : ''}" onclick="charTab='f';drawChars()">Girls</button></div>
+  <div class="grid">${roster().filter(c => c.g === charTab).map(c => `<button class="cc" onclick="pickChar('${c.id}')"><div class="cfig">${fig(c, false, 'c' + c.id)}</div>${esc(c.name)}</button>`).join('')}</div>
+  <button class="link" onclick="home()">Back</button>`;
+}
+function pickChar(id) { SEL.chars[CP.slot] = roster().find(c => c.id === id); CP.cb(); }
+function hostPick() {
+  const used = SEL.chars.filter(Boolean).map(c => c.id), pool = roster().filter(c => !used.includes(c.id));
+  return pool[Math.floor(Math.random() * pool.length)] || ROSTER[0];
+}
+
+function pickMode(multi) {
+  theme(350);
+  app.innerHTML = `<h2>${multi ? 'Pick a mode, two players' : 'Pick a mode'}</h2>
+  ${multi ? `<label>Player 1 name</label><input id="n1" maxlength="24" placeholder="Enter name">
+  <label>Player 2 name</label><input id="n2" maxlength="24" placeholder="Enter name"><div class="msg" id="nerr"></div>` : ''}
+  <div class="stack" style="margin-top:14px">${modes().map(m =>
+   `<button ${m.qs.length ? '' : 'disabled'} onclick="start('${m.id}',${multi})">${esc(m.name)}
+    <span class="tag">${m.qs.length} questions</span>${m.free === false ? `<span class="tag">₹${esc(m.price || 0)}</span>` : ''}</button>`).join('')}
+  <button class="link" onclick="home()">Back</button></div>`;
+}
+
+/* the stage: host on the left, TV in the middle, players on the right */
+function scene(o) {
+  const g3 = GL3.on(); if (g3) requestAnimationFrame(() => GL3.sync({walk: /walk/.test(o.cls), dance: o.dance, cele: !!o.confetti}));
+  const pl = o.names.map((nm, p) => `<div class="pcol">${seat(SEL.chars[p] || ROSTER[0], false, p, 'pl', o.dance === p)}<div class="lab">${esc(nm)}</div>${(o.pads && o.pads[p]) || ''}</div>`).join('');
+  return `<div class="set ${o.cls} ${o.names.length > 1 ? 'two' : ''} ${g3 ? 'g3' : ''}" id="set"><div class="bg"><i class="stars"></i><i class="beams"></i><i class="ring"><b>KAUN BANEGA BHIKHARI</b></i><i class="floor"></i></div>
+  <div class="col">${seat(SEL.host || ROSTER[0], true, 'h', 'host', false)}<div class="lab">Host</div></div>
+  <div class="mid">${o.mid}</div><div class="col pl">${pl}</div>${o.confetti ? `<div class="confetti">${confetti()}</div>` : ''}</div>`;
+}
+function walkIn(then) {                // both characters walk to their chairs and sit; the host greets
+  setTimeout(() => { const s = $('#set'); s && s.classList.add('in'); }, 80);
+  setTimeout(() => { const s = $('#set'); if (s) { s.classList.remove('walking'); s.classList.add('seated'); } }, 2300);
+  setTimeout(() => { const t = $('#sub'); if (t) t.textContent = greet(); sayGreet().then(then); }, 2700);
+}
+
+function start(id, multi) {
+  const m = modes().find(x => x.id === id);
+  if (multi && (!$('#n1').value.trim() || !$('#n2').value.trim())) { $('#nerr').textContent = 'Enter both names first'; return; }
+  G = {m, qi:0, multi, names: multi ? [$('#n1').value.trim(), $('#n2').value.trim()] : [''],
+       score: multi ? [0,0] : [0], right: [0,0], wrong: [0,0], locked: [false,false], over: false};
+  theme(m.hue); SEL.host = hostPick(); SEL.solo = !multi;
+  app.innerHTML = scene({cls:'walk walking', names: multi ? G.names : ['You'], mid:'<div class="tv"><p class="q" id="sub" style="text-align:center">KAUN BANEGA BHIKHARI</p></div>'});
+  walkIn(ask);
+}
+
+function ask() {
+  const {m, qi, multi} = G, q = qt(m, qi), L = 'ABCD';
+  G.over = false; G.locked = [false,false];
+  const mid = `<div class="tv"><div class="meta"><span>${esc(m.name)}</span><span>${qi + 1} / ${m.qs.length}</span></div>
+   <p class="q">${esc(q.q)}</p>
+   <div class="opts">${q.o.map((o, i) => multi
+     ? `<div class="opt" id="o${i}">${L[i]}. ${esc(o)}</div>`
+     : `<button id="o${i}" onclick="single(${i})">${L[i]}. ${esc(o)}</button>`).join('')}</div></div>
+   <div class="msg" id="msg">${multi ? 'Fastest correct tap wins' : ''}</div>`;
+  const pads = multi ? [0,1].map(p => `<div class="row">${[0,1,2,3].map(i => `<button id="p${p}${i}" onclick="tap(${p},${i})">${L[i]}</button>`).join('')}</div>`) : null;
+  app.innerHTML = scene({cls:'in seated', names: multi ? G.names : ['You'], mid, pads});
+  readQ(q);
+}
+
+function single(i) {
+  if (G.over) return; G.over = true;
+  const q = G.m.qs[G.qi], ok = i === q.a;
+  $('#o' + q.a).classList.add('right'); if (!ok) $('#o' + i).classList.add('wrong');
+  G.score[0] += ok ? CONFIG.RIGHT : CONFIG.WRONG; ok ? G.right[0]++ : G.wrong[0]++;
+  $('#msg').textContent = ok ? 'Correct!' : 'Wrong. Correct answer: ' + 'ABCD'[q.a];
+  Promise.all([announce(0, i, ok), sleep(1700)]).then(next);
+}
+
+function tap(p, i) {
+  if (G.over || G.locked[p]) return;
+  const q = G.m.qs[G.qi];
+  if (i === q.a) {
+    G.over = true; G.score[p] += CONFIG.RIGHT; G.right[p]++;
+    $('#o' + q.a).classList.add('right');
+    $('#msg').textContent = G.names[p] + ' was fastest!';
+    Promise.all([announce(p, i, true), sleep(1700)]).then(next);
+  } else {
+    G.locked[p] = true; G.score[p] += CONFIG.WRONG; G.wrong[p]++;
+    [0,1,2,3].forEach(k => $('#p' + p + k).disabled = true);
+    $('#msg').textContent = G.names[p] + ' got it wrong';
+    if (G.locked[0] && G.locked[1]) {
+      G.over = true; $('#o' + q.a).classList.add('right');
+      $('#msg').textContent = 'Nobody got it. Answer: ' + 'ABCD'[q.a];
+      Promise.all([announce(p, i, false), sleep(1700)]).then(next);
+    } else announce(p, i, false);
+  }
+}
+
+function next() { G.qi++; G.qi < G.m.qs.length ? ask() : finish(); }
+
+function finish() {
+  stopVoice();
+  if (G.multi) {
+    const max = G.m.qs.length * CONFIG.RIGHT, s = G.score;
+    record(G.names[0], G.m.name, s[0], G.right[0], G.wrong[0], 2);
+    record(G.names[1], G.m.name, s[1], G.right[1], G.wrong[1], 2);
+    return celebrate(G.names, s, G.right, G.wrong, max, () => { G = null; home(); });
+  }
+  app.innerHTML = `<h2>Quiz finished</h2><div class="card"><label>Enter your name to see your points</label>
+  <input id="nm" maxlength="24" placeholder="Enter name"><div class="msg" id="nmerr"></div>
+  <div class="stack"><button class="go" onclick="showSolo()">Show my points</button></div></div>`;
+}
+function showSolo() {
+  const name = $('#nm').value.trim();
+  if (!name) { $('#nmerr').textContent = 'Enter your name first'; return; }
+  const max = G.m.qs.length * CONFIG.RIGHT;
+  record(name, G.m.name, G.score[0], G.right[0], G.wrong[0], 1);
+  resultScreen([name], G.score, G.right, G.wrong, max, () => { G = null; home(); });
+}
+function celebrate(names, s, r, w, max, done) {   // winner dances, winner text, confetti
+  if (s[0] === s[1]) return resultScreen(names, s, r, w, max, done);
+  stopVoice(); resultDone = done;
+  const win = s[0] > s[1] ? 0 : 1;
+  const mid = `<div class="win"><div class="trophy">🏆</div><h2>${esc(names[win])} is the winner!</h2>
+   ${names.map((n, p) => `<p><b>${esc(n)}</b>: ${s[p]} out of ${max} points (${r[p]} right, ${w[p]} wrong)</p>`).join('')}
+   <div class="stack"><button class="go" onclick="resultDone()">Go home</button></div></div>`;
+  app.innerHTML = scene({cls:'in seated', names, mid, dance:win, confetti:true});
+  const wc = SEL.chars[win] || ROSTER[0];
+  (async () => { if (!(await playLine((win === 1 ? 'u2' : 'u1') + 'W'))) await speak(winLine(wc), wc, win); })();
+}
+let resultDone = null;
+function resultScreen(names, s, r, w, max, done) {
+  resultDone = done;
+  const two = names.length === 2;
+  const head = !two ? `Well played, ${esc(names[0])}` : s[0] === s[1] ? 'It is a tie' : esc(names[s[0] > s[1] ? 0 : 1]) + ' is the winner!';
+  app.innerHTML = `<h2>${head}</h2><div class="card">${names.map((n, p) =>
+    `<p><b>${esc(n)}</b>: ${s[p]} out of ${max} points (${r[p]} right, ${w[p]} wrong)</p>`).join('')}</div>
+  <div class="stack"><button class="go" onclick="resultDone()">Go home</button></div>`;
+}
+
+/* ---- host ---- */
+function login(err) {
+  theme(350);
+  app.innerHTML = `<h2>Host login</h2><div class="card"><label>Host ID</label>
+  <input id="hid" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+  <label>Password</label><input id="hpw" type="password" autocomplete="off">
+  ${err ? `<p class="err">${esc(err)}</p>` : ''}
+  <div class="stack" style="margin-top:12px"><button class="go" onclick="doLogin()">Log in</button><button class="link" onclick="home()">Back</button></div></div>`;
+}
+async function doLogin() {
+  const id = $('#hid').value.trim(), pw = $('#hpw').value.trim();
+  if (!id || !pw) return login('Enter your ID and password');
+  app.innerHTML = '<p class="msg">Checking…</p>';
+  let ok = false;
+  if (CONFIG.API_URL) {
+    try {
+      const d = await (await fetch(API() + '?action=players&id=' + enc(id) + '&pass=' + enc(pw))).json();
+      if (!d.ok) return login(d.error || 'Wrong ID or password');
+      ok = true;
+    } catch(e) { return login('Cannot reach the server'); }
+  } else ok = id.toLowerCase() === CONFIG.HOST_ID.toLowerCase() && pw === CONFIG.HOST_PASS;
+  if (!ok) return login('Wrong ID or password');
+  hostCreds = {id, pw}; hostIn = true; dash();
+}
+
+function dash(note) {
+  if (!hostIn) return login();
+  if (CONFIG.API_URL && hostCreds) {
+    fetch(API() + '?action=players&id=' + enc(hostCreds.id) + '&pass=' + enc(hostCreds.pw)).then(r => r.json())
+      .then(d => renderDash(note, d.ok ? d.plays : mem.plays)).catch(() => renderDash(note, mem.plays));
+  } else renderDash(note, mem.plays);
+}
+function renderDash(note, plays) {
+  const custom = mem.modes;
+  app.innerHTML = `<h2>Host dashboard</h2><div class="msg">${note || ''}</div>
+  <div class="card"><b>Add a mode</b>
+   <label>Mode name</label><input id="mn" maxlength="30">
+   <label>Stage colour (hue)</label><input id="mh" type="range" min="0" max="360" value="260">
+   <label>Access</label><select id="mf"><option value="1">Free</option><option value="0">Paid</option></select>
+   <label>Price in ₹ (paid modes)</label><input id="mp" type="number" min="0" value="0">
+   <div class="stack" style="margin-top:10px"><button class="go" onclick="addMode()">Add mode</button></div></div>
+  <div class="card"><b>Add a question</b>
+   <label>Mode</label><select id="qm">${custom.map(m => `<option value="${m.id}">${esc(m.name)}</option>`).join('')}</select>
+   <label>Question</label><input id="qq">
+   ${[0,1,2,3].map(i => `<label>Option ${'ABCD'[i]}</label><input id="qo${i}">`).join('')}
+   <label>Correct answer</label><select id="qa">${[0,1,2,3].map(i => `<option value="${i}">${'ABCD'[i]}</option>`).join('')}</select>
+   <div class="stack" style="margin-top:10px"><button class="go" ${custom.length ? '' : 'disabled'} onclick="addQ()">Add question</button></div></div>
+  <div class="card"><b>Your modes</b>${custom.length ? custom.map(m => `<p>${esc(m.name)} <span class="tag">${m.qs.length} questions</span><span class="tag">${m.free ? 'Free' : '₹' + esc(m.price)}</span>
+   <button class="link" onclick="delMode('${m.id}')">Delete</button></p>`).join('') : '<p>No modes yet. Add one above.</p>'}</div>
+  ${voicesCard()}
+  ${linesCard()}
+  <div class="card"><b>Players</b><div class="scroll"><table><tr><th>Name</th><th>Mode</th><th>Points</th><th>Right</th><th>Time</th></tr>
+   ${plays.slice().sort((a, b) => String(b.time).localeCompare(String(a.time))).map(p => `<tr><td>${esc(p.name)}</td><td>${esc(p.quiz)}</td><td>${p.points}</td><td>${p.correct}</td><td>${new Date(p.time).toLocaleString()}</td></tr>`).join('') || '<tr><td colspan="5">No games played yet</td></tr>'}</table></div></div>
+  <div class="stack"><button class="link" onclick="home()">Log out</button></div>`;
+}
+function voicesCard() {
+  let vs = []; try { vs = speechSynthesis.getVoices() || []; } catch(e) {}
+  const opt = (g, lang) => `<select onchange="setVoice('${g}', '${lang}', this.value)"><option value="">Automatic</option>${vs.filter(v => v.lang && v.lang.toLowerCase().startsWith(lang)).map(v => `<option value="${esc(v.name)}" ${mem.voices && mem.voices[g] && mem.voices[g][lang] === v.name ? 'selected' : ''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('')}</select>`;
+  return `<div class="card"><b>Voices on this phone</b>
+   <p>Male characters use a male voice and female characters use a female voice, picked automatically. If one sounds wrong, choose a better one from this phone's list. Every phone has its own list.</p>
+   <label>Male voice, English and Hinglish</label>${opt('m', 'en')}<label>Male voice, Hindi</label>${opt('m', 'hi')}
+   <label>Female voice, English and Hinglish</label>${opt('f', 'en')}<label>Female voice, Hindi</label>${opt('f', 'hi')}
+   <div class="stack" style="margin-top:10px"><button onclick="testVoice('m')">Hear a male voice</button><button onclick="testVoice('f')">Hear a female voice</button></div>
+   <p>${vs.length} voices found on this phone.</p></div>`;
+}
+function setVoice(g, lang, v) { mem.voices = mem.voices || {m:{}, f:{}}; mem.voices[g] = mem.voices[g] || {}; mem.voices[g][lang] = v || null; save(); }
+function testVoice(g) {
+  const c = ROSTER.find(x => x.g === g), t = SEL.lang === 'hi' ? 'नमस्ते, मैं तैयार हूँ' : SEL.lang === 'hg' ? 'Namaste, main taiyaar hoon' : 'Hello, I am ready to play';
+  stopVoice(); speak(t, c, 'x');
+}
+function linesCard() {
+  const row = (k, label) => `<label>${label}${mem.sounds[k] ? ' (recorded)' : ''}</label><input type="file" accept="audio/*" onchange="setSound('${k}', this)"><div class="stack" style="margin-top:6px"><button onclick="playLine('${k}')">Play</button></div>`;
+  const pl = u => ['A', 'B', 'C', 'D'].map(l => row(u + l, 'I choose option ' + l)).join('') + row(u + 'W', 'I won (Ye main jeet gaya)');
+  return `<div class="card"><b>Your recorded voice lines</b>
+   <p>Upload your own recording for any line, in a voice you have permission to use. A recording plays exactly as recorded. Any line you leave empty is spoken by the phone voice.</p>
+   <p><b>Host</b></p>${row('greet', 'Chalo ab shuru karte hain')}${row('right', 'You got this')}${row('wrong', 'Faaaahhh')}
+   <p><b>Solo player, and Player 2 in two-player</b></p>${pl('u2')}
+   <p><b>Player 1 in two-player</b></p>${pl('u1')}</div>`;
+}
+function persist(note) {
+  save();
+  if (CONFIG.API_URL && hostCreds) {
+    fetch(BASE() + '/modes', {method:'POST', body:JSON.stringify({id:hostCreds.id, pass:hostCreds.pw, modes:mem.modes, roles:mem.roles})})
+      .then(r => r.json()).then(d => dash(d.ok ? note : 'Saved on this device only: ' + (d.error || 'server refused'))).catch(() => dash('Saved on this device only: cannot reach the server'));
+  } else dash(note);
+}
+function addMode() {
+  const n = $('#mn').value.trim(); if (!n) return dash('Enter a mode name first');
+  mem.modes.push({id:'m' + Date.now(), name:n, hue:+$('#mh').value, free:$('#mf').value === '1', price:+$('#mp').value || 0, qs:[]});
+  persist('Mode added. Now add its questions.');
+}
+function addQ() {
+  const o = [0,1,2,3].map(i => $('#qo' + i).value.trim()), q = $('#qq').value.trim();
+  if (!q || o.some(x => !x)) return dash('Fill in the question and all four options');
+  mem.modes.find(m => m.id === $('#qm').value).qs.push({q, o, a:+$('#qa').value});
+  persist('Question added');
+}
+function delMode(id) { mem.modes = mem.modes.filter(m => m.id !== id); persist('Mode deleted'); }
+function setSound(k, inp) {
+  const f = inp.files && inp.files[0]; if (!f) return;
+  if (f.size > 1500000) return dash('That file is too big. Use a short sound under 1.5 MB.');
+  const fr = new FileReader();
+  fr.onload = () => {
+    ac();
+    if (CONFIG.API_URL && hostCreds) {
+      fetch(BASE() + '/sound', {method:'POST', body:JSON.stringify({id:hostCreds.id, pass:hostCreds.pw, k, data:fr.result})})
+        .then(r => r.json()).then(d => { mem.sounds[k] = 'server'; save(); delete BUF[k]; delete triedL[k]; dash(d.ok ? 'Recording saved for all players. Tap Play to test it.' : (d.error || 'Server refused the sound')); })
+        .catch(() => dash('Cannot reach the server'));
+    } else { mem.sounds[k] = fr.result; save(); delete BUF[k]; delete triedL[k]; dash('Recording saved on this device. Tap Play to test it.'); }
+  };
+  fr.readAsDataURL(f);
+}
+
+/* ---- play with a friend: same screen, or an invite code ---- */
+const MIC = {st:'idle', pc:null, local:null, offer:null, muted:false, seen:{}, audio:null};
+const MICTXT = {idle:'🎤 Join voice chat', ask:'Allow the microphone…', conn:'Connecting voice…', on:'🎤 Mic on (tap to mute)', mute:'🔇 Muted (tap to unmute)', err:'🎤 Mic blocked. Tap to retry'};
+const micHTML = () => `<button class="micb" id="micBtn" onclick="micToggle()">${MICTXT[MIC.st]}</button>`;
+function micSet(st) { MIC.st = st; const b = $('#micBtn'); if (b) b.textContent = MICTXT[st]; }
+function micStop() {
+  try { MIC.pc && MIC.pc.close(); MIC.local && MIC.local.getTracks().forEach(t => t.stop()); if (MIC.audio) MIC.audio.srcObject = null; } catch(e) {}
+  Object.assign(MIC, {st:'idle', pc:null, local:null, offer:null, muted:false, seen:{}, audio:null});
+}
+const iceDone = pc => new Promise(r => { if (pc.iceGatheringState === 'complete') return r(); pc.onicegatheringstatechange = () => { if (pc.iceGatheringState === 'complete') r(); }; setTimeout(r, 4000); });
+async function micToggle() {            // each player taps once to join; tap again to mute or unmute
+  if (!CONFIG.API_URL || !NET) return;
+  if (MIC.st === 'on' || MIC.st === 'mute') {
+    MIC.muted = !MIC.muted; MIC.local.getAudioTracks().forEach(t => { t.enabled = !MIC.muted; }); return micSet(MIC.muted ? 'mute' : 'on');
+  }
+  if (MIC.st === 'ask' || MIC.st === 'conn') return;
+  micSet('ask');
+  try { MIC.local = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true}}); } catch(e) { return micSet('err'); }
+  micSet('conn');
+  const pc = MIC.pc = new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
+  MIC.local.getTracks().forEach(t => pc.addTrack(t, MIC.local));
+  pc.ontrack = e => { const a = MIC.audio || (MIC.audio = new Audio()); a.srcObject = e.streams[0]; a.play().catch(() => {}); };
+  pc.onconnectionstatechange = () => { if (pc.connectionState === 'connected') micSet(MIC.muted ? 'mute' : 'on'); else if (pc.connectionState === 'failed') micSet('err'); };
+  if (me === 0) { await pc.setLocalDescription(await pc.createOffer()); await iceDone(pc); NET.sig(JSON.stringify(pc.localDescription)); }
+  else if (MIC.offer) micAnswer();
+}
+async function micAnswer() {
+  const o = MIC.offer, pc = MIC.pc; MIC.offer = null;
+  await pc.setRemoteDescription(JSON.parse(o)); await pc.setLocalDescription(await pc.createAnswer()); await iceDone(pc); NET.sig(JSON.stringify(pc.localDescription));
+}
+async function micGotSig(msg, from) {   // the other player's signal arrived from the server
+  if (!msg || MIC.seen[from] === msg) return; MIC.seen[from] = msg;
+  if (me === 1) { MIC.offer = msg; if (MIC.pc) micAnswer(); }
+  else if (MIC.pc) { try { await MIC.pc.setRemoteDescription(JSON.parse(msg)); } catch(e) {} }
+}
+let R = null, me = 0, NET = null, sig = '', nxt = -1, heard = null, savedOnline = false, introShown = false, readFor = -1;
+const NOROOM = 'Invite codes work on your live game server. Inside claude.ai they work between signed-in people who were invited to this page.';
+const post = b => fetch(BASE() + '/room', {method:'POST', body:JSON.stringify(b)}).then(r => r.json());
+const newCode = () => Array.from({length:5}, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+function resetNet() { micStop(); try { if (NET) NET.stop(); } catch(e) {} NET = null; R = null; sig = ''; nxt = -1; heard = null; savedOnline = false; introShown = false; readFor = -1; }
+
+function friendMenu() {
+  theme(350); resetNet();
+  app.innerHTML = `<h2>Play with a friend</h2><div class="stack" style="margin-top:14px">
+  <button class="go" onclick="flow('two', () => pickMode(true))">Same screen</button>
+  <button class="go" onclick="flow('online', pickOnline)">Create an invite code</button>
+  <button class="go" onclick="flow('online', joinScreen)">Join with a code</button>
+  <button class="link" onclick="home()">Back</button></div>`;
+}
+function fail(msg) {
+  resetNet();
+  app.innerHTML = `<h2>Could not continue</h2><div class="card"><p>${esc(msg || '')}</p></div><button class="link" onclick="friendMenu()">Back</button>`;
+}
+function pickOnline() {
+  theme(350);
+  app.innerHTML = `<h2>Create an invite code</h2><label>Your name</label><input id="on" maxlength="24" placeholder="Enter name"><div class="msg" id="oerr"></div>
+  <div class="stack" style="margin-top:14px">${modes().map(m => `<button ${m.qs.length ? '' : 'disabled'} onclick="createRoom('${m.id}')">${esc(m.name)}</button>`).join('')}
+  <button class="link" onclick="friendMenu()">Back</button></div>`;
+}
+function joinScreen() {
+  theme(350);
+  app.innerHTML = `<h2>Join with a code</h2><label>Invite code</label><input id="jc" maxlength="5" autocapitalize="characters" autocomplete="off">
+  <label>Your name</label><input id="jn" maxlength="24" placeholder="Enter name"><div class="msg" id="jerr"></div>
+  <div class="stack" style="margin-top:14px"><button class="go" onclick="joinRoom()">Join game</button><button class="link" onclick="friendMenu()">Back</button></div>`;
+}
+
+/* transport 1: your server (main.py) */
+function serverNet(code) {
+  const tick = () => fetch(BASE() + '/room?code=' + code).then(r => r.json()).then(d => { if (d.ok) { R = d.room; draw(); if (R.sg && R.sg[String(1 - me)]) micGotSig(R.sg[String(1 - me)], 1 - me); } }).catch(() => {});
+  tick(); const t = setInterval(tick, 500);
+  return {tap: i => post({action:'answer', code, p:me, i}).then(tick).catch(() => {}),
+          next: q => post({action:'next', code, qi:q}).catch(() => {}),
+          sig: msg => post({action:'sig', code, p:me, msg}).catch(() => {}),
+          stop: () => clearInterval(t)};
+}
+
+/* transport 2: claude.ai live room (the first player's page keeps score) */
+async function getRoom() {
+  try { if (window.claude && claude.use) return await Promise.race([claude.use('room'), new Promise(r => setTimeout(() => r(null), 4000))]); } catch(e) {}
+  return null;
+}
+const rname = c => 'kbb-' + c.toLowerCase();
+function pub(S) {
+  const cur = S.qs[S.qi], q = {q:cur.q, o:cur.o};
+  if (S.over) q.a = cur.a;
+  return {code:S.code, names:S.names, ch:S.ch, hc:S.hc, hue:S.hue, mode:S.mode, mid:S.mid, qi:S.qi, total:S.total, score:S.score, right:S.right, wrong:S.wrong,
+          locked:S.locked, over:S.over, done:S.done, ev:S.ev, last:S.last, q};
+}
+async function roomHost(rc, S) {
+  const rm = await rc.join(rname(S.code));
+  let p2 = null, lastN = 0;
+  const publish = () => { R = pub(S); draw(); rm.presence({role:'host', g:R, p2}).catch(() => {}); };
+  const apply = (p, qi, i) => {
+    if (!S.names[1] || S.over || S.done || qi !== S.qi || S.locked[p]) return;
+    const ok = i === S.qs[S.qi].a; S.ev++;
+    if (ok) { S.score[p] += CONFIG.RIGHT; S.right[p]++; S.over = true; }
+    else { S.score[p] += CONFIG.WRONG; S.wrong[p]++; S.locked[p] = true; if (S.locked[0] && S.locked[1]) S.over = true; }
+    S.last = {p, ok, i, n:S.ev}; publish();
+  };
+  const advance = qi => {
+    if (!S.over || S.done || qi !== S.qi) return; S.ev++;
+    if (S.qi + 1 >= S.total) S.done = true; else { S.qi++; S.over = false; S.locked = [false, false]; }
+    publish();
+  };
+  rm.onPeers(ch => {
+    for (const pe of ch.peers) {
+      const pr = pe.presence || {};
+      if (pr.role !== 'guest') continue;
+      if (!p2) { p2 = pe.peer; S.names[1] = String(pr.name || 'Player 2').slice(0, 24); S.ch[1] = String(pr.ch || 'shakti'); S.ev++; publish(); }
+      if (pe.peer === p2 && pr.ans && pr.ans.n > lastN) { lastN = pr.ans.n; apply(1, pr.ans.qi, pr.ans.i); }
+    }
+  });
+  publish();
+  return {tap: i => apply(0, S.qi, i), next: advance, stop: () => rm.leave().catch(() => {})};
+}
+async function roomGuest(rc, code, name) {
+  const rm = await rc.join(rname(code));
+  let n = 0, seen = false;
+  const timer = setTimeout(() => { if (!seen) { try { rm.leave(); } catch(e) {} fail('Room not found. Check the code and ask your friend to keep the game open.'); } }, 8000);
+  rm.presence({role:'guest', name, ch:SEL.chars[0].id}).catch(() => {});
+  rm.onPeers(ch => {
+    const h = ch.peers.find(pe => pe.presence && pe.presence.role === 'host' && pe.presence.g), mine = ch.peers.find(pe => pe.sameTab);
+    if (!h) return;
+    if (h.presence.p2 && mine && h.presence.p2 !== mine.peer) { clearTimeout(timer); return fail('This room is full'); }
+    seen = true; R = h.presence.g; draw();
+  });
+  return {tap: i => { n++; rm.presence({ans:{n, qi:R.qi, i}}).catch(() => {}); }, next: () => {}, stop: () => { clearTimeout(timer); rm.leave().catch(() => {}); }};
+}
+
+async function createRoom(id) {
+  const m = modes().find(x => x.id === id), nm = $('#on').value.trim();
+  if (!nm) { $('#oerr').textContent = 'Enter your name first'; return; }
+  resetNet(); me = 0; SEL.host = hostPick();
+  app.innerHTML = '<p class="msg">Creating room…</p>';
+  try {
+    if (CONFIG.API_URL) {
+      const d = await post({action:'create', name:nm, ch0:SEL.chars[0].id, hc:SEL.host.id, mode:{id:m.id, name:m.name, hue:m.hue, qs:m.qs}});
+      if (!d.ok) return fail(d.error);
+      NET = serverNet(d.code);
+    } else {
+      const rc = await getRoom(); if (!rc) return fail(NOROOM);
+      const S = {code:newCode(), names:[nm, null], ch:[SEL.chars[0].id, null], hc:SEL.host.id, mode:m.name, mid:m.id, hue:m.hue, qs:m.qs.map(q => ({q:q.q, o:q.o, a:q.a})), qi:0, total:m.qs.length,
+                 score:[0,0], right:[0,0], wrong:[0,0], locked:[false,false], over:false, done:false, ev:0, last:null};
+      NET = await roomHost(rc, S);
+    }
+  } catch(e) { fail('Could not start the room. Try again.'); }
+}
+async function joinRoom() {
+  const code = $('#jc').value.trim().toUpperCase(), nm = $('#jn').value.trim();
+  if (!code || !nm) { $('#jerr').textContent = 'Enter the code and your name'; return; }
+  resetNet(); me = 1;
+  app.innerHTML = '<p class="msg">Joining…</p>';
+  try {
+    if (CONFIG.API_URL) {
+      const d = await post({action:'join', code, name:nm, ch1:SEL.chars[0].id});
+      if (!d.ok) return fail(d.error);
+      NET = serverNet(code);
+    } else {
+      const rc = await getRoom(); if (!rc) return fail(NOROOM);
+      NET = await roomGuest(rc, code, nm);
+    }
+  } catch(e) { fail('Could not join the room. Try again.'); }
+}
+function leave() { home(); }
+
+function draw() {
+  if (!R) return;
+  SEL.solo = false;
+  const find = id => roster().find(c => c.id === id) || ROSTER[0];
+  if (R.ch) { SEL.chars = [find(R.ch[0]), find(R.ch[1] || 'shakti')]; SEL.host = find(R.hc); }
+  if (heard === null) heard = R.last ? R.last.n : 0;
+  else if (R.last && R.last.n > heard) { heard = R.last.n; announce(R.last.p, R.last.i, R.last.ok); }
+  const k = JSON.stringify([R.ev, R.qi, R.names, R.over, R.done]);
+  if (k === sig) return; sig = k; theme(R.hue);
+  if (!R.names[1]) return lobby();
+  if (R.done) return finishOnline();
+  stage();
+  if (R.over && nxt !== R.qi) { nxt = R.qi; const q = R.qi; setTimeout(() => { if (NET) NET.next(q); }, 3400); }
+}
+function lobby() {
+  app.innerHTML = `<h2>${me === 0 ? 'Invite your friend' : 'Joining…'}</h2><div class="card"><p>${me === 0 ? 'Share this code. Your friend taps “Join with a code” and types it in.' : 'Waiting for the game to start.'}</p>
+  <h1 style="font-size:56px;letter-spacing:6px;text-align:center;color:var(--acc)">${esc(R.code)}</h1>
+  <div class="stack">${me === 0 ? '<button class="go" onclick="shareCode()">Share on WhatsApp or copy</button>' : ''}<button class="link" onclick="leave()">Cancel</button></div></div>
+  <div class="msg">${me === 0 ? 'Waiting for your friend…' : ''}</div>`;
+}
+function shareCode() {
+  const t = 'Join my Kaun Banega Bhikhari game with code ' + R.code;
+  try { navigator.share ? navigator.share({text:t}) : navigator.clipboard.writeText(t); } catch(e) {}
+}
+function stage() {
+  const q = SEL.lang === 'hi' && HI[R.mid] && HI[R.mid][R.qi] ? {q:HI[R.mid][R.qi][0], o:HI[R.mid][R.qi][1]} : SEL.lang === 'hg' && HG[R.mid] && HG[R.mid][R.qi] ? {q:HG[R.mid][R.qi], o:R.q.o} : R.q, L = 'ABCD', mine = R.locked[me];
+  G = {names:R.names};
+  const msg = R.over ? (R.last && R.last.ok ? R.names[R.last.p] + ' was fastest!' : 'Nobody got it. Answer: ' + L[R.q.a]) : (mine ? 'Wrong. Wait for your friend' : 'Fastest correct tap wins');
+  const mid = `<div class="tv"><div class="meta"><span>${esc(R.mode)}</span><span>${R.qi + 1} / ${R.total}</span></div>
+   <p class="q" id="sub">${esc(q.q)}</p><div class="opts">${q.o.map((o, i) => `<div class="opt" ${R.over && i === R.q.a ? 'style="background:var(--good);color:#04200f"' : ''}>${L[i]}. ${esc(o)}</div>`).join('')}</div></div>
+   <div class="msg" id="msg">${esc(msg)}</div>${CONFIG.API_URL ? micHTML() : ''}`;
+  const pads = [0,1].map(p => p === me ? `<div class="row">${[0,1,2,3].map(i => `<button ${mine || R.over ? 'disabled' : ''} onclick="onlineTap(${i})">${L[i]}</button>`).join('')}</div>` : '');
+  const first = !introShown; introShown = true;
+  app.innerHTML = scene({cls: first ? 'walk walking' : 'in seated', names:R.names, mid, pads});
+  if (first) {
+    readFor = R.qi;
+    setTimeout(() => { const s = $('#set'); s && s.classList.add('in'); }, 80);
+    setTimeout(() => { const s = $('#set'); if (s) { s.classList.remove('walking'); s.classList.add('seated'); } }, 2300);
+    setTimeout(() => { const m2 = $('#msg'); if (m2) m2.textContent = greet(); sayGreet().then(() => readQ(q)); }, 2700);
+  } else if (readFor !== R.qi) { readFor = R.qi; readQ(q); }
+}
+function onlineTap(i) { if (R && NET && !R.over && !R.locked[me]) NET.tap(i); }
+function finishOnline() {
+  stopVoice();
+  if (!savedOnline) {
+    savedOnline = true;
+    record(R.names[me], R.mode, R.score[me], R.right[me], R.wrong[me], 2);
+    const n = NET; setTimeout(() => { try { n && n.stop(); } catch(e) {} }, 4000);
+  }
+  celebrate(R.names, R.score, R.right, R.wrong, R.total * CONFIG.RIGHT, () => { home(); });
+}
+
+/* count visits and load host-made modes from the server */
+if (CONFIG.API_URL) {
+  try { fetch(API(), {method:'POST', body:JSON.stringify({type:'visit'})}).catch(() => {}); } catch(e) {}
+  fetch(BASE() + '/modes').then(r => r.json()).then(d => { if (d.ok) { mem.modes = d.modes; if (d.roles) mem.roles = d.roles; } }).catch(() => {});
+}
+home();
+</script>
+</body>
+</html>
